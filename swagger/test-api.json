@@ -1,0 +1,2304 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OOZEE"
+  },
+  "host": "oozee.com",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Authenticate User",
+        "description": "After phone number verification from mobile app,  this URI will fetch all user details from mobile for the very first time and will provide auth token in response through which all other API's can be accessed.",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+    "/refresh-token": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Token refresh",
+        "description": "Refresh token after token expire.",
+        "operationId": "refresh-token",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Refresh token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshToken"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+    "/users-details-by-number": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get users details",
+        "description": "Get users details.",
+        "operationId": "users-details-by-number",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Users details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NumberDetails"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+    "/search": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search contact",
+        "description": "Search contact by phone number.",
+        "operationId": "search",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Search contact",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SearchContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/contact-details": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Contact details",
+        "description": "Contact details by phone number.",
+        "operationId": "contact-details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SearchContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/call-details": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Call details",
+        "description": "Call details by phone number.",
+        "operationId": "call-details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Call details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SearchContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/auth-user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get Auth user details",
+        "description": "Get details of login mobile application user.",
+        "operationId": "auth-user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-user-profile": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user profile",
+        "description": "Receive parameters from mobile application to update a profile from the login user.",
+        "operationId": "update-user-profile",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "All body parameters are optional but parameter name must same as provided bellow",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserProfile"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-user-status": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user status",
+        "description": "Receive parameters from mobile application to update a status from the login user.",
+        "operationId": "update-user-status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "All body parameters are optional but parameter name must same as provided bellow",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserStatus"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-user-location": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user location",
+        "description": "Receive parameters from mobile application to update a location from the login user.",
+        "operationId": "update-user-location",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User location details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLocation"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-user-plan": {
+      "post": {
+        "tags": [
+          "Plan"
+        ],
+        "summary": "Update user plan",
+        "description": "Receive parameters from mobile application to update a plan from the login user.",
+        "operationId": "update-user-plan",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User plan details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPlan"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/get-plan-history": {
+      "post": {
+        "tags": [
+          "Plan"
+        ],
+        "summary": "Get user plan history",
+        "description": "Get payment history.",
+        "operationId": "get-plan-history",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User payment history",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-user-settings": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update settings",
+        "description": "Update settings.",
+        "operationId": "update-user-settings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User settings",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserSettings"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/get-user-settings": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get settings",
+        "description": "Get settings.",
+        "operationId": "get-user-settings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User settings",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/get-users-status": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get status",
+        "description": "Get status.",
+        "operationId": "get-users-status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Users status",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/notes": {
+      "post": {
+        "tags": [
+          "Note"
+        ],
+        "summary": "Add Note",
+        "description": "Receive parameters from mobile application to save a note from the login user",
+        "operationId": "note-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Note details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Note"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/get-notes": {
+      "post": {
+        "tags": [
+          "Note"
+        ],
+        "summary": "Get Notes",
+        "description": "Get all notes by number",
+        "operationId": "get-note",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Note details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Notes"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/notes/{id}": {
+      "put": {
+        "tags": [
+          "Note"
+        ],
+        "summary": "Updated note",
+        "description": "Receive parameters from mobile application to update a note from the login user.",
+        "operationId": "updateNote",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Note id that need to be updated",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated note object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Note"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Note"
+        ],
+        "summary": "Get note detail",
+        "description": "Fetch particular note details from the provided list of notes in the mobile application.",
+        "operationId": "getNote",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Note id that need to be fetch",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Note"
+        ],
+        "summary": "Delete note",
+        "description": "Delete particular note from the provided list of notes  for mobile application.",
+        "operationId": "deleteNote",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Note id that need to be delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/plans": {
+      "get": {
+        "tags": [
+          "Plan"
+        ],
+        "summary": "Subscription Plan list",
+        "description": "Get all subscription plans added by Admin.",
+        "operationId": "plan-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/plans/{id}": {
+      "get": {
+        "tags": [
+          "Plan"
+        ],
+        "summary": "Subscription Plan detail",
+        "description": "Fetch particular plan's details from the list of plans.",
+        "operationId": "plan-by-id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Plan id that need to be fetch",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/blogs": {
+      "get": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "Blog list",
+        "description": "Get all blogs added by Admin.",
+        "operationId": "blog-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/blogs/{id}": {
+      "get": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "Blog detail",
+        "description": "Get particular blog's detail from the list of blogs.",
+        "operationId": "blog-by-id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog id that need to be fetch",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "summary": "News list",
+        "description": "Get all news added by Admin.",
+        "operationId": "news-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/news/{id}": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "summary": "News detail",
+        "description": "Get particular news detail from the list of news.",
+        "operationId": "news-by-id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "News id that need to be fetch",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/cms-pages": {
+      "get": {
+        "tags": [
+          "CMS page"
+        ],
+        "summary": "CMS pages list",
+        "description": "Get all CMS pages added by Admin.",
+        "operationId": "cms-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/cms-pages/{id}": {
+      "get": {
+        "tags": [
+          "CMS page"
+        ],
+        "summary": "CMS page detail",
+        "description": "Get particular CMS page detail from the list of cms pages.",
+        "operationId": "cms-by-id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "CMS page id that need to be fetch",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/countries": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Countries list",
+        "description": "Get list of all countries with country code.",
+        "operationId": "Countries",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+    "/text-templates": {
+      "get": {
+        "tags": [
+          "Template"
+        ],
+        "summary": "Text template list",
+        "description": "Get list of all text template.",
+        "operationId": "text-templates",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/image-templates": {
+      "get": {
+        "tags": [
+          "Template"
+        ],
+        "summary": "Image template list",
+        "description": "Get list of all Image template.",
+        "operationId": "image-templates",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/blocked-contacts": {
+      "get": {
+        "tags": [
+          "Blocked contacts"
+        ],
+        "summary": "Blocked contacts list",
+        "description": "Get list of contacts blocked by login user.",
+        "operationId": "blocked-contact-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Blocked contacts"
+        ],
+        "summary": "Blocked contacts add",
+        "description": "Block a contact from the mobile application by user.",
+        "operationId": "blocked-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/blocked-contacts/{id}": {
+      "delete": {
+        "tags": [
+          "Blocked contacts"
+        ],
+        "summary": "Blocked contact remove",
+        "description": "Unblock contact from the blocked contact list",
+        "operationId": "blocked-contact-delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blocked contact id that need to be delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/multiple-blocked-contacts": {
+      "post": {
+        "tags": [
+          "Blocked contacts"
+        ],
+        "summary": "Multiple block contacts add",
+        "description": "Block a contact from the mobile application by user.",
+        "operationId": "multiple-blocked-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultipleContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/dead-contacts": {
+      "get": {
+        "tags": [
+          "Dead contacts"
+        ],
+        "summary": "Dead contacts list",
+        "description": "Get list of dead contacts.",
+        "operationId": "dead-contact-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Dead contacts"
+        ],
+        "summary": "Dead contacts add",
+        "description": "Add contact to dead contacts list.",
+        "operationId": "dead-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/dead-contacts/{id}": {
+      "delete": {
+        "tags": [
+          "Dead contacts"
+        ],
+        "summary": "Dead contact remove",
+        "description": "Remove contact from dead contact list.",
+        "operationId": "dead-contact-delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Dead contact id that need to be delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/multiple-dead-contacts": {
+      "post": {
+        "tags": [
+          "Dead contacts"
+        ],
+        "summary": "Multiple dead contacts add",
+        "description": "Dead a contact from the mobile application by user.",
+        "operationId": "multiple-dead-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultipleContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/quick-lists": {
+      "get": {
+        "tags": [
+          "Quick list"
+        ],
+        "summary": "Quick contacts list",
+        "description": "Get list of favorite contacts.",
+        "operationId": "quick-contact-list",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Quick list"
+        ],
+        "summary": "Quick contacts add",
+        "description": "Add contact into favorite contact list.",
+        "operationId": "quick-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/quick-lists/{id}": {
+      "delete": {
+        "tags": [
+          "Quick list"
+        ],
+        "summary": "Quick contact remove",
+        "description": "Remove contact from favorite contact list.",
+        "operationId": "quick-contact-delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Quick contact id that need to be delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/multiple-quick-contacts": {
+      "post": {
+        "tags": [
+          "Quick list"
+        ],
+        "summary": "Multiple quick list add",
+        "description": "Quick a contact from the mobile application by user.",
+        "operationId": "multiple-quick-contact-add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contact details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultipleContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Tags list",
+        "description": "Get list of tags.",
+        "operationId": "tags",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/sub-tags/{id}": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Sub tags",
+        "description": "Get particular sub tags from tags.",
+        "operationId": "sub-tags",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Tag id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/add-number-tags": {
+      "post": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Tags to number",
+        "description": "Add tags to number.",
+        "operationId": "add-number-tags",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Number tag object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NumberTag"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/update-number-tags": {
+      "post": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Update tags to number",
+        "description": "Update tags to number.",
+        "operationId": "update-number-tags",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Number tag object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateNumberTag"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/voice-messages": {
+      "post": {
+        "tags": [
+          "Voice Message"
+        ],
+        "summary": "Send voice message",
+        "description": "Send voice message.",
+        "operationId": "voice-messages",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Number tag object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VoiceMessage"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/recordings": {
+      "post": {
+        "tags": [
+          "Recordings"
+        ],
+        "summary": "Save recordings",
+        "description": "Save recordings.",
+        "operationId": "recordings",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Recording object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recordings"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/sync-contacts": {
+      "post": {
+        "tags": [
+          "Sync Contact"
+        ],
+        "summary": "Sync contacts",
+        "description": "Sync contacts.",
+        "operationId": "sync-contacts",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Sync object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SyncContact"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/get-recordings": {
+      "post": {
+        "tags": [
+          "Recordings"
+        ],
+        "summary": "Get recordings",
+        "description": "Get recordings.",
+        "operationId": "get-recordings",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User id object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/user-notifications": {
+      "post": {
+        "tags": [
+          "Notification"
+        ],
+        "summary": "Get Notifications",
+        "description": "Get Notifications.",
+        "operationId": "user-notifications",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User id object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/add-media": {
+      "post": {
+        "tags": [
+          "File"
+        ],
+        "summary": "Uploads a file.",
+        "description": "Upload file.",
+        "operationId": "file-upload",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "type",
+            "type": "string",
+            "description": "Like. vcard, recordings, voice, profile",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "media",
+            "type": "file",
+            "description": "The file to upload.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/feedback": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Send Feedback",
+        "description": "Send Feedback.",
+        "operationId": "feedback",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User id object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feedback"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "phone_number",
+        "first_name",
+        "last_name",
+        "country_id",
+        "email",
+        "gender",
+        "type",
+        "latitude",
+        "longitude",
+        "device_token",
+        "device_type",
+        "device_imei",
+        "birthdate"
+      ],
+      "properties": {
+        "phone_number": {
+          "type": "integer"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "device_type": {
+          "type": "string"
+        },
+        "device_token": {
+          "type": "string"
+        },
+        "device_imei": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string"
+        }
+      }
+    },
+    "Note": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "title",
+        "note",
+        "country_id",
+        "phone_number",
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "Notes": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "country_id",
+        "phone_number"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "phone_number",
+        "country_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "MultipleContact": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "contacts",
+        "country_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RefreshToken": {
+      "type": "object",
+      "required": [
+        "refresh_token"
+      ],
+      "properties": {
+        "refresh_token": {
+          "type": "string"
+        }
+      }
+    },
+    "SearchContact": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "phone_number",
+        "country_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "UserProfile": {
+      "type": "object",
+      "required": [
+        "user_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "nick_name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "company_name": {
+          "type": "string"
+        },
+        "company_address": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        }
+      }
+    },
+    "NumberTag": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "phone_number",
+        "country_id",
+        "tag_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "tag_id": {
+          "type": "integer"
+        },
+        "sub_tag_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "UpdateNumberTag": {
+      "type": "object",
+      "required": [
+        "id",
+        "tag_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "tag_id": {
+          "type": "integer"
+        },
+        "sub_tag_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "UserLocation": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "latitude",
+        "longitude"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        }
+      }
+    },
+    "UserSettings": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "UserId": {
+      "type": "object",
+      "required": [
+        "user_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "UserPlan": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "plan_id",
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "plan_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "Recordings": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "country_id",
+        "media_id",
+        "phone_number",
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "media_id": {
+          "type": "integer"
+        },
+        "country_id": {
+          "type": "integer"
+        },
+        "phone_number": {
+          "type": "integer"
+        }
+      }
+    },
+    "VoiceMessage": {
+      "type": "object",
+      "required": [
+        "sender_user_id",
+        "media_id",
+        "receiver_user_id",
+      ],
+      "properties": {
+        "media_id": {
+          "type": "integer"
+        },
+        "sender_user_id": {
+          "type": "integer"
+        },
+        "receiver_user_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "SyncContact": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "media_id",
+        "country_id",
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "media_id": {
+          "type": "integer"
+        },
+        "country_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "UserStatus": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "status",
+        "phone_number",
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "NumberDetails": {
+      "type": "object",
+      "required": [
+        "country_id",
+        "phone_number"
+      ],
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "Feedback": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "title",
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

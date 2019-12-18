@@ -1,0 +1,29 @@
+{
+  "name": "notificationapp",
+  "version": "1.0.0",
+  "description": "This is Socket.io and Android test app",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "socketio",
+    "expressjs"
+  ],
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  },
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.16.2",
+    "forever": "^1.0.0",
+    "ip": "^1.1.5",
+    "jquery": "^3.2.1",
+    "mysql": "^2.17.1",
+    "socket.io": "^2.0.4"
+  }
+}
