@@ -15,6 +15,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Api
+ */
 class UserController extends Controller
 {
     use PassportToken;
@@ -46,6 +50,7 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return array
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function login(Request $request)
     {

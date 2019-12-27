@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\SyncContact::class,
         Commands\ImportSheet::class,
+        Commands\DeleteTempContacts::class,
     ];
 
     /**
@@ -25,7 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('delete:temp:contact')->everyMinute();
         $schedule->command('sync:contact')->everyMinute();
+        $schedule->command('import:sheet')->everyMinute();
     }
 
     /**

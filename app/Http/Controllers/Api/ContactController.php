@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\DeadContact;
 use App\Models\NumberTag;
 use App\Models\QuickList;
+use App\Models\Setting;
 use App\Models\TempContact;
 use App\Models\User;
 use Brick\PhoneNumber\PhoneNumber;
@@ -327,7 +328,14 @@ class ContactController extends Controller
             'spam' => $result->spam,
             'locations' => $result->locations,
             'isBlock' => $result->isblock,
+            'mutualEnable' => true
         ];
+        if ($result->user_id) {
+            $mutual = Setting::where('user_id', $result->user_id)->where('name', 'mutual')->first();
+            if ($mutual) {
+                $data['mutualEnable'] = $mutual->value == 0 ? false : true;
+            }
+        }
         return $this->makeResponse('', $data, 200);
     }
 

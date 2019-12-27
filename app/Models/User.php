@@ -285,7 +285,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_contact_users_with_status('.$uid.')'
+                'call get_contact_users_with_status_new('.$uid.')'
             )
         );
     }
@@ -327,6 +327,21 @@ class User extends Authenticatable
         return $this->hydrate(
             DB::select(
                 'call get_contact_users_for_chat_new('.$uid.')'
+            )
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function removeTempContacts()
+    {
+        $days = 3;
+        return $this->hydrate(
+            DB::statement(
+                DB::raw(
+                    'DELETE FROM temp_contacts WHERE created_at < NOW() - INTERVAL '.$days.' DAY'
+                )
             )
         );
     }
