@@ -9,6 +9,7 @@ use App\Models\NumberTag;
 use App\Models\QuickList;
 use App\Models\Setting;
 use App\Models\TempContact;
+use App\Models\TempNewContact;
 use App\Models\User;
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberException;
@@ -494,14 +495,14 @@ class ContactController extends Controller
                                 if ($card->firstname == $card->lastname) {
                                     $lastName = '';
                                 }
-                                $checkContact = TempContact::where([
+                                $checkContact = TempNewContact::where([
                                     'first_name' => $card->firstname,
                                     'last_name' => $lastName,
                                     'country_id' => $countryId,
                                     'phone_number' => $number
                                 ])->first();
                                 if (!$checkContact) {
-                                    $contact = new TempContact();
+                                    $contact = new TempNewContact();
                                     $contact->first_name = $card->firstname;
                                     $contact->last_name = $lastName;
                                     $contact->phone_number = $number;

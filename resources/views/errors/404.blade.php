@@ -23,7 +23,7 @@
     <div class="hgroup">
         <h1>Page Not Found</h1>
         <h2>It seems that page you are looking for no longer exists.</h2>
-        <a href="{{ route('admin.home') }}" class="btn btn-responsive btn-default button-alignment">Home
+        <a href="{{ url('/') }}" class="btn btn-responsive btn-default button-alignment">Home
         </a>
     </div>
     <!-- global js -->

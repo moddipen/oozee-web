@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use JeroenDesloovere\VCard\VCard;
 
@@ -43,16 +44,14 @@ class SearchController extends Controller
         $data['cid'] = $country->id;
         $data['user_id'] = 0;
         $result = $this->model->searchContact($data);
-//        echo '<pre>';
-//        print_r($result);
-//        exit();
+
         $name = '';
         if ($result->first_name || $result->last_name) {
-            $name = $result->first_name.' '.$result->last_name;
+            $name = $result->first_name . ' ' . $result->last_name;
         }
         $data['country'] = $country;
-        $data['name'] = Cookie::get('name-'.$number) ? Cookie::get('name-'.$number) : $name;
-        $data['spam'] = Cookie::get('spam-'.$number) ? Cookie::get('spam-'.$number) : false;
+        $data['name'] = Cookie::get('name-' . $number) ? Cookie::get('name-' . Auth::id() . '-' . $number) : $name;
+        $data['spam'] = Cookie::get('spam-' . $number) ? Cookie::get('spam-' . Auth::id() . '-' . $number) : false;
         $data['email'] = $result->email ?? '';
         $data['address'] = $result->address ?? '';
         $data['photo'] = $result->photo ?? '';
@@ -60,7 +59,7 @@ class SearchController extends Controller
         $data['user_id'] = $result->user_id;
         $data['contact_id'] = $result->contact_id ?? 0;
         $data['phone_number_id'] = $result->number_id ?? 1;
-        $data['tag'] = Cookie::get('tag-'.$number) ? Cookie::get('tag-'.$number) : null;
+        $data['tag'] = Cookie::get('tag-' . $number) ? Cookie::get('tag-' . Auth::id() . '-' . $number) : null;
         $tags = Tag::select('id', 'name')->get();
         return view('frontend.profile', compact('data', 'tags'));
     }
@@ -72,14 +71,14 @@ class SearchController extends Controller
     public function updateContact(Request $request)
     {
         if ($request->type == 'name') {
-            $cookie = cookie()->forever('name-' . $request->number, $request->name);
+            $cookie = cookie()->forever('name-' . Auth::id() . '-' . $request->number, $request->name);
             $msg = 'Your suggestions was successfully submitted. Thank you for improving our service!';
         } elseif ($request->type == 'tag') {
-            $cookie = cookie()->forever('tag-' . $request->number, $request->name);
+            $cookie = cookie()->forever('tag-' . Auth::id() . '-' . $request->number, $request->name);
             $msg = 'Your report was successfully submitted. Thank you for improving our service!';
         } else {
-            $spam = Cookie::get('spam-'.$request->number) ? !Cookie::get('spam-'.$request->number) : true;
-            $cookie = cookie()->forever('spam-' . $request->number, $spam);
+            $spam = Cookie::get('spam-' . Auth::id() . '-'  . $request->number) ? !Cookie::get('spam-' . Auth::id() . '-'  . $request->number) : true;
+            $cookie = cookie()->forever('spam-' . Auth::id() . '-' . $request->number, $spam);
             $msg = 'Your report was successfully submitted. Thank you for improving our service!';
         }
         return response($msg)->cookie($cookie);

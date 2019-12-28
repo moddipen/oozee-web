@@ -53,6 +53,9 @@ class LoginController extends Controller
         }
         $user = $this->findOrCreateUser($provider, $providerUser);
         Auth::loginUsingId($user->id, true);
+        if (strpos(\Session::get('url.intended', url('/')), 'home') !== false) {
+            return redirect('/');
+        }
         return redirect()->intended('/');
     }
 

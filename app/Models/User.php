@@ -56,7 +56,7 @@ class User extends Authenticatable
     public function loginOrRegister($userData)
     {
         DB::statement(
-            DB::raw('CALL user_register_or_login(' .$userData->phone_number . ',' . $userData->country_id . ',' ."'". $userData->first_name ."'". ',' ."'". $userData->last_name ."'". ',' ."'". $userData->email ."'".  ',' ."'". $userData->type ."'".',' ."'". $userData->gender ."'".',' ."'". $userData->device_type ."'".',' ."'". $userData->device_token ."'".',' ."'". $userData->device_token ."'".',' ."'". $userData->birthdate ."'".',' ."'". $userData->photo ."'".', @Out_UserID)')
+            DB::raw('CALL user_register_or_login(' .$userData->phone_number . ',' . $userData->country_id . ',' ."'". $userData->first_name ."'". ',' ."'". $userData->last_name ."'". ',' ."'". $userData->email ."'".  ',' ."'". $userData->type ."'".',' ."'". $userData->gender ."'".',' ."'". $userData->device_type ."'".',' ."'". $userData->device_token ."'".',' ."'". $userData->device_imei ."'".',' ."'". $userData->birthdate ."'".',' ."'". $userData->photo ."'".', @Out_UserID)')
         );
         $result = DB::select(
             'SELECT @Out_UserID as user_id'
@@ -246,7 +246,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_temp_contact_lists()'
+                'call get_temp_contact_lists(5000)'
             )
         );
     }
@@ -340,8 +340,46 @@ class User extends Authenticatable
         return $this->hydrate(
             DB::statement(
                 DB::raw(
-                    'DELETE FROM temp_contacts WHERE created_at < NOW() - INTERVAL '.$days.' DAY'
+                    'DELETE FROM temp_new_contacts WHERE created_at < NOW() - INTERVAL '.$days.' DAY'
                 )
+            )
+        );
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function removeSelectedTempContacts($id)
+    {
+        return DB::statement(
+            DB::raw(
+                'DELETE FROM temp_contacts WHERE id <='.$id
+            )
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserTempContacts()
+    {
+        return $this->hydrate(
+            DB::select(
+                'call get_user_temp_contact_lists(5000)'
+            )
+        );
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function removeSelectedUserTempContacts($id)
+    {
+        return DB::statement(
+            DB::raw(
+                'DELETE FROM temp_new_contacts WHERE id <='.$id
             )
         );
     }

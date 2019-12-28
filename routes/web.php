@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/admin', function () {
-    return redirect('/admin/login');
+Route::get('/admin/login', function () {
+    return abort(404);
+});
+
+Route::get('/nimda 20', function () {
+    return redirect('/nimda 20/login');
 });
 
 // Social login routes ...
@@ -48,8 +52,9 @@ Route::group(['middleware' => ['web', 'revalidate']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
+Route::get('/nimda 20/login', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
+
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'AdminAuth\LoginController@authenticate')->name('admin.authenticate');
     Route::get('/logout', 'AdminAuth\LoginController@logout')->name('logout');
     Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail')->name('password.request');

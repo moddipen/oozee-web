@@ -22,6 +22,7 @@
         "laravel/tinker": "^1.0",
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "^2.36",
+        "spotonlive/laravel-google-ads": "^1.2",
         "yajra/laravel-datatables-oracle": "^8.0"
     },
     "require-dev": {

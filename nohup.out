@@ -1,0 +1,31 @@
+
+mmap() failed: [12] Cannot allocate memory
+PHP Fatal error:  Out of memory (allocated 37748736) (tried to allocate 1126400 bytes) in /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 330
+
+   Symfony\Component\Debug\Exception\FatalErrorException  : Out of memory (allocated 37748736) (tried to allocate 1126400 bytes)
+
+  at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:330
+    326|                               ->prepare($query));
+    327| 
+    328|             $this->bindValues($statement, $this->prepareBindings($bindings));
+    329| 
+  > 330|             $statement->execute();
+    331| 
+    332|             return $statement->fetchAll();
+    333|         });
+    334|     }
+
+
+   Whoops\Exception\ErrorException  : Out of memory (allocated 37748736) (tried to allocate 1126400 bytes)
+
+  at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:330
+    326|                               ->prepare($query));
+    327| 
+    328|             $this->bindValues($statement, $this->prepareBindings($bindings));
+    329| 
+  > 330|             $statement->execute();
+    331| 
+    332|             return $statement->fetchAll();
+    333|         });
+    334|     }
+
