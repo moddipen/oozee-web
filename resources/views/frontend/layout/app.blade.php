@@ -23,6 +23,7 @@
                 color: red !important;
             }
         </style>
+        <script data-ad-client="ca-pub-3126411919241531" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         @yield('after-styles')
     </head>
     <body>

@@ -41,7 +41,7 @@
                     <div class="col-lg-11 col-xl-9">
                         <div class="card card-custom text-center">
                             <div class="card-body profile-block">
-                                <img src="{{ $data['photo'] ? $data['photo'] : asset('public/images/no_profile.png') }}"
+                                <img style="object-fit: cover;" src="{{ $data['photo'] ? $data['photo'] : asset('public/images/no_profile.png') }}"
                                      class="profile-pic" alt="">
                                 <h3>
                                     <span id="name-text">{{  $data['name'] ? $data['name'] : '+'.$data['country']->code.$data['phone_number']}}</span>

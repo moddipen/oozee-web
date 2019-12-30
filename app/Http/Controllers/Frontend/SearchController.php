@@ -50,8 +50,9 @@ class SearchController extends Controller
             $name = $result->first_name . ' ' . $result->last_name;
         }
         $data['country'] = $country;
-        $data['name'] = Cookie::get('name-' . $number) ? Cookie::get('name-' . Auth::id() . '-' . $number) : $name;
-        $data['spam'] = Cookie::get('spam-' . $number) ? Cookie::get('spam-' . Auth::id() . '-' . $number) : false;
+        $data['name'] = Cookie::get('name-' . Auth::id() . '-' . $number) ? Cookie::get('name-' . Auth::id() . '-' . $number) : $name;
+        $data['spam'] = Cookie::get('spam-' . Auth::id() . '-' . $number) ? Cookie::get('spam-' . Auth::id() . '-' . $number) : false;
+        $data['tag'] = Cookie::get('tag-' . Auth::id() . '-' . $number) ? Cookie::get('tag-' . Auth::id() . '-' . $number) : null;
         $data['email'] = $result->email ?? '';
         $data['address'] = $result->address ?? '';
         $data['photo'] = $result->photo ?? '';
@@ -59,7 +60,6 @@ class SearchController extends Controller
         $data['user_id'] = $result->user_id;
         $data['contact_id'] = $result->contact_id ?? 0;
         $data['phone_number_id'] = $result->number_id ?? 1;
-        $data['tag'] = Cookie::get('tag-' . $number) ? Cookie::get('tag-' . Auth::id() . '-' . $number) : null;
         $tags = Tag::select('id', 'name')->get();
         return view('frontend.profile', compact('data', 'tags'));
     }
@@ -77,7 +77,7 @@ class SearchController extends Controller
             $cookie = cookie()->forever('tag-' . Auth::id() . '-' . $request->number, $request->name);
             $msg = 'Your report was successfully submitted. Thank you for improving our service!';
         } else {
-            $spam = Cookie::get('spam-' . Auth::id() . '-'  . $request->number) ? !Cookie::get('spam-' . Auth::id() . '-'  . $request->number) : true;
+            $spam = Cookie::get('spam-' . Auth::id() . '-' . $request->number) ? !Cookie::get('spam-' . Auth::id() . '-' . $request->number) : true;
             $cookie = cookie()->forever('spam-' . Auth::id() . '-' . $request->number, $spam);
             $msg = 'Your report was successfully submitted. Thank you for improving our service!';
         }

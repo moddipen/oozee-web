@@ -40,5 +40,6 @@ class OldChatMessagesRemove extends Command
     {
         $msg = new Message();
         $msg->removeChatMessages();
+        $msg->removeChatMedia();
     }
 }

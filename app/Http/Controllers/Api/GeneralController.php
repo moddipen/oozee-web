@@ -128,14 +128,15 @@ class GeneralController extends Controller
      */
     public function addMedia(Request $request)
     {
-        $types = ['voice', 'recordings', 'profile', 'vcard'];
+        $types = ['voice', 'recordings', 'profile', 'vcard', 'message'];
         if($request->type && in_array($request->type, $types)) {
             $temp = new TempMedia();
+            $temp->message = $request->type == 'message' ? 1 : 0;
             if ($temp->save()) {
                 if ($request->hasFile('media')) {
                     $temp->addMediaFromRequest('media')->toMediaCollection($request->type);
                     $media = $temp->getFirstMedia($request->type);
-                    if (in_array($request->type, ['voice', 'profile'])) {
+                    if (in_array($request->type, ['voice', 'profile', 'message'])) {
                         $id = url('/').$temp->getFirstMediaUrl($request->type);
                     } else {
                         $id = $media->id;
