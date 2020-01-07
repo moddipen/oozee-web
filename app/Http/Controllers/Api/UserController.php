@@ -105,6 +105,7 @@ class UserController extends Controller
             $data = ['access_token' => $response['access_token'], 'refresh_token' => $response['refresh_token'], 'user_id' => $userId, 'current_plan' => $userPlan->planWithFeatures()];
             $data['mutualEnable'] = true;
             $data['statusEnable'] = true;
+            $data['genderEnable'] = true;
             $mutual = Setting::where('user_id', $user->id)->where('name', 'mutual')->first();
             if ($mutual) {
                 $data['mutualEnable'] = $mutual->value == 0 ? false : true;
@@ -112,6 +113,10 @@ class UserController extends Controller
             $status = Setting::where('user_id', $user->id)->where('name', 'status')->first();
             if ($status) {
                 $data['statusEnable'] = $status->value == 0 ? false : true;
+            }
+            $gender = Setting::where('user_id', $user->id)->where('name', 'gender')->first();
+            if ($status) {
+                $data['genderEnable'] = $gender->value == 0 ? false : true;
             }
             return $this->makeResponse('Authentication successfully.', $data, 200);
         } else {
