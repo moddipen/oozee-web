@@ -97,6 +97,17 @@ class User extends Authenticatable
                     'call get_user_locations('.$result->user_id.')'
                 )
             )->toArray();
+
+            DB::statement(
+                DB::raw('CALL check_gender_show('.$result->user_id.', @outShow)')
+            );
+            $checkGenderEnable = DB::select(
+                'SELECT @outShow as shows'
+            )[0];
+            if ($checkGenderEnable->shows != 1) {
+                $result->gender = '';
+            }
+
         } else {
             $result->locations = [];
         }
@@ -128,6 +139,16 @@ class User extends Authenticatable
                     'call get_mutual_contacts('.$userData['user_id'].', '.$result->user_id.')'
                 )
             )->toArray();
+
+            DB::statement(
+                DB::raw('CALL check_gender_show('.$result->user_id.', @outShow)')
+            );
+            $checkGenderEnable = DB::select(
+                'SELECT @outShow as shows'
+            )[0];
+            if ($checkGenderEnable->shows != 1) {
+                $result->gender = '';
+            }
         } else {
             $result->mutual_list = [];
         }
@@ -283,11 +304,34 @@ class User extends Authenticatable
      */
     public function getContactUserWithStatus($uid)
     {
-        return $this->hydrate(
+        $array = [];
+        $users =  $this->hydrate(
             DB::select(
                 'call get_contact_users_with_status_new('.$uid.')'
             )
         );
+        foreach ($users as $user) {
+            $gender = $user->gender;
+            if ($user->plan_id == 2) {
+                DB::statement(
+                    DB::raw('CALL check_gender_show('.$user->id.', @outShow)')
+                );
+                $checkGenderEnable = DB::select(
+                    'SELECT @outShow as shows'
+                )[0];
+                if ($checkGenderEnable->shows != 1) {
+                    $gender = '';
+                }
+            }
+
+            $array[] = [
+                "number" => $user->number,
+                "status" => $user->status,
+                "photo" => $user->photo,
+                "gender" => $gender,
+            ];
+        }
+        return $array;
     }
 
     /**

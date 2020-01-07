@@ -545,6 +545,43 @@
         ]
       }
     },
+    "/get-chat-users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get chat users",
+        "description": "Get chat users",
+        "operationId": "get-chat-users",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Users chat",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note supplied"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/notes": {
       "post": {
         "tags": [

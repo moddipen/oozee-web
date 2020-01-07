@@ -59,7 +59,7 @@ class UserController extends Controller
             'country_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
+//            'email' => 'required',
             'type' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',

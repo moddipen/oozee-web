@@ -105,6 +105,6 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
         Session::put('success', 'Logout successfully !');
-        return redirect('/admin/login');
+        return redirect('/');
     }
 }
