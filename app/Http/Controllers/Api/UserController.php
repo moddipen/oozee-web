@@ -59,13 +59,13 @@ class UserController extends Controller
             'country_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-//            'email' => 'required',
+            'email' => 'required',
             'type' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
             'device_type' => 'required',
             'device_token' => 'required',
-            'device_imei' => 'required'
+//            'device_imei' => 'required'
         ]);
 
         $latitude = $request->latitude;

@@ -131,7 +131,7 @@ class GeneralController extends Controller
         $types = ['voice', 'recordings', 'profile', 'vcard', 'message'];
         if($request->type && in_array($request->type, $types)) {
             $temp = new TempMedia();
-            $temp->message = $request->type == 'message' ? 1 : 0;
+            $temp->message = $request->type == 'message' || $request->type == 'voice' ? 1 : 0;
             if ($temp->save()) {
                 if ($request->hasFile('media')) {
                     $temp->addMediaFromRequest('media')->toMediaCollection($request->type);
