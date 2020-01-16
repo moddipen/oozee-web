@@ -2121,7 +2121,7 @@
         "user_id",
         "phone_number",
         "country_id",
-        "tag_id"
+        "tags"
       ],
       "properties": {
         "user_id": {
@@ -2133,11 +2133,8 @@
         "country_id": {
           "type": "integer"
         },
-        "tag_id": {
-          "type": "integer"
-        },
-        "sub_tag_id": {
-          "type": "integer"
+        "tags": {
+          "type": "string"
         }
       }
     },

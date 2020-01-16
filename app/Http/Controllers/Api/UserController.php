@@ -115,7 +115,7 @@ class UserController extends Controller
                 $data['statusEnable'] = $status->value == 0 ? false : true;
             }
             $gender = Setting::where('user_id', $user->id)->where('name', 'gender')->first();
-            if ($status) {
+            if ($gender) {
                 $data['genderEnable'] = $gender->value == 0 ? false : true;
             }
             return $this->makeResponse('Authentication successfully.', $data, 200);

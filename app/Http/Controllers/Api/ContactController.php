@@ -50,7 +50,7 @@ class ContactController extends Controller
         $contact->country_id = $codeNumber['cid'];
         $contact->user_id = $data['user_id'];
         if ($contact->save()) {
-            return $this->makeResponse('Contact added to '.$type.' list.', [], 200);
+            return $this->makeResponse('Contact added to ' . $type . ' list.', [], 200);
         } else {
             return $this->makeError('Something went wrong.', [], 400);
         }
@@ -319,8 +319,8 @@ class ContactController extends Controller
             'last_name' => $result->last_name ?? '',
             'email' => $result->email ?? '',
             'address' => $result->address ?? '',
-            'photo' =>  $photo,
-            'gender' =>  $gender,
+            'photo' => $photo,
+            'gender' => $gender,
             'tag' => $result->tags,
             'mutual' => $result->mutual ?? 0,
             'mutual_list' => $result->mutual_list ?? [],
@@ -388,20 +388,45 @@ class ContactController extends Controller
             'phone_number' => 'required',
             'country_id' => 'required',
             'user_id' => 'required',
-            'tag_id' => 'required'
+            'tags' => 'required'
         ]);
-        $data = $this->setNumber($request->phone_number, $request->country_id);
-        $numbertag = new NumberTag();
-        $numbertag->phone_number = $data['phone'];
-        $numbertag->country_id = $data['cid'];
-        $numbertag->user_id = $request->user_id;
-        $numbertag->tag_id = $request->tag_id;
-        $numbertag->sub_tag_id = $request->sub_tag_id ?? 0;
-        if ($numbertag->save()) {
-            return $this->makeResponse('Tag added.', [], 200);
-        } else {
+
+        try {
+            $data = $this->setNumber($request->phone_number, $request->country_id);
+
+            $this->model->removeTagsFromNumberByUser($request->user_id, $data['phone']);
+
+            foreach (explode(',', $request->tags) as $tag) {
+                $this->model->addTagToNumberByUser([
+                    'tag_id' => $tag,
+                    'user_id' => $request->user_id,
+                    'number' => $data['phone'],
+                    'cid' => $data['cid']
+                ]);
+            }
+
+            $tags = $this->model->getNumberTagsByUser([
+                'user_id' => $request->user_id,
+                'number' => $data['phone'],
+                'cid' => $data['cid']
+            ]);
+
+            return $this->makeResponse('Tag added.', ['tags' => $tags], 200);
+        } catch (\Exception $exception) {
             return $this->makeError('Something went wrong !.', [], 410);
         }
+
+//        $numbertag = new NumberTag();
+//        $numbertag->phone_number = $data['phone'];
+//        $numbertag->country_id = $data['cid'];
+//        $numbertag->user_id = $request->user_id;
+//        $numbertag->tag_id = $request->tag_id ??;
+//        $numbertag->sub_tag_id = $request->sub_tag_id ?? 0;
+//        if ($numbertag->save()) {
+//            return $this->makeResponse('Tag added.', [], 200);
+//        } else {
+//            return $this->makeError('Something went wrong !.', [], 410);
+//        }
     }
 
     /**
@@ -447,7 +472,7 @@ class ContactController extends Controller
         }
         $userId = $request->user_id;
         try {
-            $parser = VCardParser::parseFromFile(base_path().$file->getUrl());
+            $parser = VCardParser::parseFromFile(base_path() . $file->getUrl());
             foreach ($parser->getCards() as $card) {
                 if (!empty($card->phone)) {
                     $phones = $card->phone;
@@ -473,8 +498,8 @@ class ContactController extends Controller
                         if ($phone != '') {
                             if ($phone[0] == '+') {
                                 try {
-                                    $phone = preg_replace('/[^a-zA-Z0-9_ -]/s','',$phone);
-                                    $parseNumber = PhoneNumber::parse('+'.$phone);
+                                    $phone = preg_replace('/[^a-zA-Z0-9_ -]/s', '', $phone);
+                                    $parseNumber = PhoneNumber::parse('+' . $phone);
                                     $number = $parseNumber->getNationalNumber();
                                     $code = $parseNumber->getCountryCode();
                                     $country = Country::where('code', $code)->first();
@@ -486,7 +511,7 @@ class ContactController extends Controller
 //                                    return $this->makeError($e->getMessage(), [], 410);
                                 }
                             } else {
-                                $number = preg_replace('/[^a-zA-Z0-9_ -]/s','',$phone);
+                                $number = preg_replace('/[^a-zA-Z0-9_ -]/s', '', $phone);
                                 $number = str_replace(' ', '', $number);
                                 $number = str_replace('-', '', $number);
                             }

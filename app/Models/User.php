@@ -427,4 +427,67 @@ class User extends Authenticatable
             )
         );
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSheetTempContacts()
+    {
+        return $this->hydrate(
+            DB::select(
+                'call get_temp_contact_lists(5000)'
+            )
+        );
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function removeSelectedSheetTempContacts($id)
+    {
+        return DB::statement(
+            DB::raw(
+                'DELETE FROM temp_contacts WHERE id <='.$id
+            )
+        );
+    }
+
+    /**
+     * @param $uid
+     * @param $phone
+     * @return bool
+     */
+    public function removeTagsFromNumberByUser($uid, $phone)
+    {
+        return DB::statement(
+            DB::raw(
+                'DELETE FROM tag_to_numbers WHERE user_id='.$uid.' AND phone_number='.$phone
+            )
+        );
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function addTagToNumberByUser($data)
+    {
+        return DB::statement(
+            DB::raw('call add_tag_to_number('.$data['number']. ', '. $data['cid'].', '. $data['user_id'].', '. $data['tag_id'].')')
+        );
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function getNumberTagsByUser($data)
+    {
+        return $this->hydrate(
+            DB::select(
+                'call get_number_tags(' .$data['number'] . ',' . $data['cid'] .',' . $data['user_id'] .')'
+            )
+        )->toArray();
+    }
 }
