@@ -434,8 +434,11 @@ class User extends Authenticatable
     public function getSheetTempContacts()
     {
         return $this->hydrate(
+//            DB::select(
+//                'call get_temp_contact_lists(5000)'
+//            )
             DB::select(
-                'call get_temp_contact_lists(5000)'
+                'call get_temp_contact_tc_lists(5000)'
             )
         );
     }
@@ -447,8 +450,12 @@ class User extends Authenticatable
     public function removeSelectedSheetTempContacts($id)
     {
         return DB::statement(
+//            DB::raw(
+//                'DELETE FROM temp_contacts WHERE id <='.$id
+//            )
+
             DB::raw(
-                'DELETE FROM temp_contacts WHERE id <='.$id
+                'DELETE FROM temp_contacts_tc WHERE id <='.$id
             )
         );
     }

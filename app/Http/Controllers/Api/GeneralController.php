@@ -137,11 +137,18 @@ class GeneralController extends Controller
                     $temp->addMediaFromRequest('media')->toMediaCollection($request->type);
                     $media = $temp->getFirstMedia($request->type);
                     if (in_array($request->type, ['voice', 'profile', 'message'])) {
+//                        if ($request->type == 'message') {
+//                            $thumb =  url('/').$temp->getMedia($request->type)[0]->getUrl('thumb');
+//                        } else {
+//                            $thumb = '';
+//                        }
                         $id = url('/').$temp->getFirstMediaUrl($request->type);
                     } else {
                         $id = $media->id;
+//                        $thumb = '';
                     }
                     return $this->makeResponse('Media saved.', ['id' => $id], 200);
+//                    return $this->makeResponse('Media saved.', ['id' => $id, 'thumb' => $thumb], 200);
                 } else {
                     return $this->makeError('Media file is required !', [], 410);
                 }

@@ -26,9 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('delete:temp:contact')->everyMinute();
-        $schedule->command('sync:contact')->everyMinute();
-        $schedule->command('import:sheet')->everyMinute();
+//        $schedule->command('chat:message:remove')->daily()->withoutOverlapping();
+        $schedule->command('sync:contact')->everyMinute()->withoutOverlapping();
+//        $schedule->command('import:sheet')->everyMinute();
     }
 
     /**
