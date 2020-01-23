@@ -99,6 +99,7 @@
         $('#ckeditor_full').ckeditor({
             height: '300px'
         });
-        $('#ckeditor_full').config.allowedContent = true;
+        CKEDITOR.config.allowedContent = true
+
     </script>
 @stop

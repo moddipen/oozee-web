@@ -47,7 +47,7 @@
                             {{--                            </li>--}}
 
                             <li>
-                                <a href="{{ route('download') }}"><img src="{{ asset('public/images/download_now_badge.png') }}" alt=""> </a>
+                                <a href="{{ route('download') }}"><img src="{{ asset('public/images/oozee_dl.png') }}" alt=""> </a>
                             </li>
                             <li>
                                 @auth

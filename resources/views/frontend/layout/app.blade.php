@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
     <head>
-        <title>OOZEE</title>
+        <title>oozee - Smart Caller ID & Spam Detection</title>
         <meta charset="utf-8">
         <meta name="format-detection" content="telephone=no">
         <meta name="viewport"

@@ -36,20 +36,20 @@
                                 <h3 class="black_bg">Dowload oozee <br> on your device.</h3>
                                 <br>
                                 <div class="form-group download-button">
-                                    <a href="#">
+                                    <a href="https://play.google.com/store/apps/details?id=com.app.oozee">
                                         <img class="download-button-img" height="50" src="{{ asset('public/frontend/images/google.png') }}" alt="">
                                     </a>
                                 </div>
                                 <div class="form-group download-button">
-                                    <a href="#">
+                                    <a href="https://apps.apple.com/in/app/oozee-smart-phonebook-chat/id1478753850">
                                         <img class="download-button-img" height="50" src="{{ asset('public/frontend/images/ios.png') }}" alt="">
                                     </a>
                                 </div>
-                                <div class="form-group download-button">
-                                    <a href="#">
-                                        <img class="download-button-img" height="50" src="{{ asset('public/frontend/images/apk_download.png') }}" alt="">
-                                    </a>
-                                </div>
+{{--                                <div class="form-group download-button">--}}
+{{--                                    <a href="#">--}}
+{{--                                        <img class="download-button-img" height="50" src="{{ asset('public/frontend/images/apk_download.png') }}" alt="">--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
                                 {{--                            <p class="change_link" style="text-align: center">--}}
                                 {{--                                <a href="{{ url('/') }}">--}}
                                 {{--                                    Later--}}
