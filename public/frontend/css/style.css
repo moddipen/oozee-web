@@ -19378,12 +19378,16 @@ text-overflow: '';}
 .margin-block .searchblock .input-search { width:calc(100% - 187px); float: left; border:none; font-size: 14px; height: 25px; margin: 13px; -webkit-appearance: none; -moz-appearance: textfield;}
 .margin-block .searchblock .searhv-icon { width: 44px; margin: 4px; float: right;}
 .margin-block .searchblock .searhv-icon img {width: 100%;}
-.app-block { width:250px; margin:auto;}
+.app-block { width: 350px; margin:auto;}
 .app-block h3 { color:#fff; margin-bottom: 0px; font-size:18px; font-weight:bold;}
 .nomarg { margin:0px;}
 .appimg { padding: 0px !important;}
-.app-store { width: 102px;
-	margin-top: 7px;
+.app-store {
+	width: 140px;
+	margin-top: 10px;
+}
+.download-button-img {
+	width: 300px;
 }
 @media (max-width: 1199px) {
 	.margin-block .searchblock .country-code {

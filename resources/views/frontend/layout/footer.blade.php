@@ -79,7 +79,7 @@
 <footer class="footer-corporate">
     <div class="container">
         <div class="footer-corporate__inner">
-            <p class="rights">OOZEE&nbsp;&copy; <span class="copyright-year"></span>.
+            <p class="rights"><span class="copyright-year"></span>&nbsp;&copy; oozee-All Rights Reserved to Silicon Enterprise
             </p>
 {{--            <ul class="list-inline-xxs">--}}
 {{--                <li><a class="icon icon-xxs icon-primary fa fa-facebook" href="#"></a></li>--}}
