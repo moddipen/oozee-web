@@ -86,10 +86,10 @@ class User extends Authenticatable
     public function searchContact($userData)
     {
         DB::statement(
-            DB::raw('CALL search_contact_new('.$userData['user_id'].',' .$userData['phone'] . ',' . $userData['cid'] .', @firstName, @lastName, @OutEmail, @address, @photo, @gender, @user_id, @OutSpam, @ServiceProvider, @Subscribed, @Website, @Business)')
+            DB::raw('CALL search_contact_new('.$userData['user_id'].',' .$userData['phone'] . ',' . $userData['cid'] .', @firstName, @lastName, @OutEmail, @address, @photo, @gender, @user_id, @OutSpam, @OutSpamCount, @ServiceProvider, @Subscribed, @Website, @Business)')
         );
         $result = DB::select(
-            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @address as address, @photo as photo, @gender as gender, @user_id as user_id, @OutSpam as spam, @Subscribed as subscribed, @Website as website, @Business as business, @ServiceProvider as service_provider'
+            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @address as address, @photo as photo, @gender as gender, @user_id as user_id, @OutSpam as spam, @OutSpamCount as spamCount, @Subscribed as subscribed, @Website as website, @Business as business, @ServiceProvider as service_provider'
         )[0];
 
         if ($result->user_id != 0) {
@@ -127,10 +127,10 @@ class User extends Authenticatable
     public function getContactDetails($userData)
     {
         DB::statement(
-            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutBlock, @Subscribed, @Website, @Business)')
+            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutSpamCount, @OutBlock, @Subscribed, @Website, @Business)')
         );
         $result = DB::select(
-            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business'
+            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutSpamCount as spamCount, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business'
         )[0];
 
         if ($result->user_id != 0) {
