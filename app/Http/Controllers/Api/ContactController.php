@@ -9,7 +9,7 @@ use App\Models\NumberTag;
 use App\Models\QuickList;
 use App\Models\Setting;
 use App\Models\TempContact;
-use App\Models\TempNewContact;
+use App\Models\SpamNumber;
 use App\Models\User;
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberException;
@@ -40,7 +40,22 @@ class ContactController extends Controller
     {
         $codeNumber = $this->setNumber($data['phone_number'], $data['country_id']);
         if ($type == 'blocked') {
+
             $contact = new BlockedContact();
+
+            $block = SpamNumber::where(['number' => $codeNumber['phone']])->first();
+            if ($block) {
+                if ($block->spam_by == 1) {
+                    $block->counts = $block->counts + 1;
+                }
+            } else {
+                $block = new SpamNumber();
+                $block->number = $codeNumber['phone'];
+                $block->spam_by = 1;
+                $block->counts = 1;
+            }
+            $block->save();
+            
         } elseif ($type == 'quick') {
             $contact = new QuickList();
         } elseif ($type == 'dead') {
@@ -116,7 +131,13 @@ class ContactController extends Controller
     public function destroyBlockedContacts($id)
     {
         $contact = BlockedContact::find($id);
-        if ($contact && $contact->delete()) {
+        if ($contact) {
+            $block = SpamNumber::where(['number' => $contact->phone_number])->first();
+            if ($block && $block->spam_by == 1) {
+                $block->counts = $block->counts - 1;
+                $block->save();
+            }
+            $contact->delete();
             return $this->makeResponse('Remove contact from block list.', [], 200);
         } else {
             return $this->makeError('Something went wrong.', [], 410);
@@ -327,8 +348,11 @@ class ContactController extends Controller
             'contact_user_id' => $result->user_id ?? 0,
             'service_provider' => $result->service_provider ?? '',
             'spam' => $result->spam,
+            'website' => $result->website ?? '',
+            'business' => $result->business ?? '',
             'locations' => $result->locations,
             'isBlock' => $result->isblock,
+            'premium' => $result->subscribed == 1 ? true : false,
             'mutualEnable' => true
         ];
         if ($result->user_id) {

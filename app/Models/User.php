@@ -91,6 +91,7 @@ class User extends Authenticatable
         $result = DB::select(
             'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @address as address, @photo as photo, @gender as gender, @user_id as user_id, @OutSpam as spam, @Subscribed as subscribed, @Website as website, @Business as business, @ServiceProvider as service_provider'
         )[0];
+
         if ($result->user_id != 0) {
             $result->locations = $this->hydrate(
                 DB::select(
@@ -126,10 +127,10 @@ class User extends Authenticatable
     public function getContactDetails($userData)
     {
         DB::statement(
-            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutBlock)')
+            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutBlock, @Subscribed, @Website, @Business)')
         );
         $result = DB::select(
-            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutBlock as isblock, @gender as gender'
+            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business'
         )[0];
 
         if ($result->user_id != 0) {

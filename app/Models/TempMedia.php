@@ -12,14 +12,14 @@ class TempMedia extends Model implements HasMedia
     use HasMediaTrait;
 
 
-//    /**
-//     * @param Media|null $media
-//     * @throws \Spatie\Image\Exceptions\InvalidManipulation
-//     */
-//    public function registerMediaConversions(Media $media = null)
-//    {
-//        $this->addMediaConversion('thumb')
-//            ->width(200)
-//            ->height(200)->keepOriginalImageFormat();
-//    }
+    /**
+     * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->width(100)
+            ->height(100)->keepOriginalImageFormat();
+    }
 }
