@@ -73,7 +73,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input type="number" class="history-input input-search numbers" id="number"
+                            <input type="text" class="history-input input-search numbers" id="number"
                                    autocomplete="off"
                                    name="number"/>
                             <a href="javascript:" onclick="$('#search-form').submit()" class="searhv-icon">

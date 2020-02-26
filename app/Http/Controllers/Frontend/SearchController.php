@@ -26,7 +26,6 @@ class SearchController extends Controller
     public function search($iso, $number)
     {
         $data = [];
-        $data['phone'] = $number;
         $country = Country::where('iso', $iso)->first();
 
         if (!is_numeric($number)) {
@@ -41,7 +40,11 @@ class SearchController extends Controller
             $data['phone_number_id'] = 0;
             return view('frontend.profile', compact('data', 'tags'));
         }
-        $data['cid'] = $country->id;
+
+        $codeNumber = $this->setNumber($number, $country->id);
+
+        $data['cid'] = $codeNumber['cid'];
+        $data['phone'] = $codeNumber['phone'];
         $data['user_id'] = 0;
         $result = $this->model->searchContact($data);
 
@@ -49,6 +52,15 @@ class SearchController extends Controller
         if ($result->first_name || $result->last_name) {
             $name = $result->first_name . ' ' . $result->last_name;
         }
+        $data = [
+            'service_provider' => $result->service_provider ?? '',
+            'spamContact' => $result->spam == 1 ? true : false,
+            'website' => $result->website ?? '',
+            'business' => $result->business ?? '',
+            'premium' => $result->subscribed == 1 ? true : false,
+            'phone' => $codeNumber['phone'],
+            'cid' => $codeNumber['cid'],
+        ];
         $data['country'] = $country;
         $data['name'] = Cookie::get('name-' . Auth::id() . '-' . $number) ? Cookie::get('name-' . Auth::id() . '-' . $number) : $name;
         $data['spam'] = Cookie::get('spam-' . Auth::id() . '-' . $number) ? Cookie::get('spam-' . Auth::id() . '-' . $number) : false;
@@ -56,6 +68,7 @@ class SearchController extends Controller
         $data['email'] = $result->email ?? '';
         $data['address'] = $result->address ?? '';
         $data['photo'] = $result->photo ?? '';
+        $data['gender'] = $result->gender ?? '';
         $data['phone_number'] = $number;
         $data['user_id'] = $result->user_id;
         $data['contact_id'] = $result->contact_id ?? 0;

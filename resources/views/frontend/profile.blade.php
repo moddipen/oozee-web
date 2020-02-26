@@ -1,6 +1,7 @@
 @extends('frontend.layout.app')
 @section('content')
     <section class="section-xl section-lg-custom bg-default text-center search_listheader_bf">
+       
         <div class="container">
             <div class="row row-30 justify-content-lg-center">
                 <div class="col-lg-11 col-xl-9">
@@ -18,13 +19,14 @@
                                     </select>
                                 </div>
                                 <div class="searchbox">
-                                    <input type="number" required name="number" autocomplete="off"
+                                    <input type="text" required name="number" autocomplete="off"
                                            value="{{ $data['phone_number'] }}"
                                            class="numbers form-control form-control-sm" id="number"
                                     >
-                                    <a href="javascript:" onclick="$('#search-form').submit()" class="searhv-icon-inner">
-                                <img src="{{ asset('public/frontend/images/main/search2.png') }}" alt="">
-                            </a>
+                                    <a href="javascript:" onclick="$('#search-form').submit()"
+                                       class="searhv-icon-inner">
+                                        <img src="{{ asset('public/frontend/images/main/search2.png') }}" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -39,16 +41,49 @@
             @if($data['phone_number_id'] != '')
                 <div class="row row-30 justify-content-lg-center">
                     <div class="col-lg-11 col-xl-9">
-                        <div class="card card-custom text-center">
+                        <div class="card card-custom text-center {{ $data['spamContact'] ? 'spam-div' : ''  }}">
                             <div class="card-body profile-block">
-                                <img style="object-fit: cover;" src="{{ $data['photo'] ? $data['photo'] : asset('public/images/no_profile.png') }}"
-                                     class="profile-pic" alt="">
-                                <h3>
-                                    <span id="name-text">{{  $data['name'] ? $data['name'] : '+'.$data['country']->code.$data['phone_number']}}</span>
-                                    <a href="javascript:" data-toggle="modal" data-target="#suggestName">
+
+                            @if($data['premium'])
+                            @php
+                            $borderclass="premium-border";
+                            @endphp
+                            @elseif($data['gender'] == "Female" || $data['gender'] == "female")                           
+                            @php                            
+                            $borderclass="pink-border";                            
+                            @endphp
+                            @else
+                            @php
+                            $borderclass="blue-border";
+                            @endphp
+                            @endif
+                                
+                                <img style="object-fit: cover;"
+                                     src=" {{  $data['photo'] ? $data['photo'] : asset('public/images/no_profile.png') }}"
+                                     class="profile-pic {{ $borderclass }}" alt="">
+                                
+                                     @if($data['premium'])
+                                     <span class="prime-badge1">
+                                     <i><img src="{{ asset('public/images/prime/prime_badge.png') }}" alt=""></i>
+                                     </span>
+                                     @endif
+                                <br/>
+                                     <span id="name-text" class="dis-flex"><h3>{{  $data['name'] ? $data['name'] : ($data['spamContact'] ? 'Spam' : 'oops... better luck next time')}}</h3></span>
+                                    @if($data['premium'])
+                                        <i><img src="{{ asset('public/images/prime/prime_user_icon.png') }}" alt=""></i>
+                                    @endif
+                                    @if($data['gender'] == "Female" || $data['gender'] == "female") 
+                                        <i><img src="{{ asset('public/images/female/female_badge.png') }}" alt=""></i>
+                                    @elseif($data['gender'] == "Male" || $data['gender'] == "male")
+                                    <i><img src="{{ asset('public/images/prime/male.png') }}" alt=""></i> 
+                                    @else                                         
+                                    @endif
+
+                                    <!-- <a href="javascript:" data-toggle="modal" data-target="#suggestName">
                                         <i><img src="{{ asset('public/images/suggest.png') }}" alt=""></i>
-                                    </a>
-                                </h3>
+                                    </a>  -->                               
+                                
+                                    <br/>
                                 <div class="gallerydiv">
                                     <a style="color: black;" href="javascript:" class="top-tag" data-toggle="modal"
                                        data-target=".bd-example-modal-lg">
@@ -63,29 +98,51 @@
                             <div class="card-footer text-muted">
                                 <div class="row">
                                     <div class="col">
-                                        <a href="#">
-                                            <i><img src="{{ asset('public/images/call.png') }}" alt=""></i> Call</a>
+                                        <a href="#" class="col-text">
+                                        @if($data['premium'])
+                                        <i><img src="{{ asset('public/images/prime/call_prime.png') }}" alt=""></i>
+                                        @elseif($data['gender'] == "Female")                           
+                                        <i><img src="{{ asset('public/images/female/call_female.png') }}" alt=""></i>
+                                        @else
+                                        <i><img src="{{ asset('public/images/general-male/call_general_male.png') }}" alt=""></i>                                        
+                                        @endif
+                                        Call                                    
+                                        </a>
                                     </div>
                                     {{--                                    <div class="col">--}}
                                     {{--                                        <a href="#"><i class="material-icons">message</i> Message</a>--}}
                                     {{--                                    </div>--}}
                                     <div class="col spam-content">
                                         @if(!$data['spam'])
-                                            <a href="javascript:" data-toggle="modal" data-target="#spamModal">
-                                                <i><img src="{{ asset('public/images/spam.png') }}" alt=""></i> Mark as
+                                            <a href="javascript:" data-toggle="modal" data-target="#spamModal" class="col-text">
+                                              
+                                                @if($data['premium'])
+                                                <i><img src="{{ asset('public/images/prime/spam_prime.png') }}" alt=""></i>
+                                                @elseif($data['gender'] == "Female")                           
+                                                <i><img src="{{ asset('public/images/female/spam__female.png') }}" alt=""></i>
+                                                @else
+                                                <i><img src="{{ asset('public/images/general-male/spam__general_male.png') }}" alt=""></i>                                        
+                                                @endif
+                                                Mark as
                                                 spam</a>
                                         @else
-                                            <a href="javascript:" class="spam-data" onclick="unspam()">
-                                                <i><img src="{{ asset('public/images/spam.png') }}" alt=""></i> Unmark
+                                            <a href="javascript:" class="spam-data" onclick="unspam()" class="col-text">
+                                            @if($data['premium'])
+                                                <i><img src="{{ asset('public/images/prime/spam_prime.png') }}" alt=""></i>
+                                                @elseif($data['gender'] == "Female")                           
+                                                <i><img src="{{ asset('public/images/female/spam__female.png') }}" alt=""></i>
+                                                @else
+                                                <i><img src="{{ asset('public/images/general-male/spam__general_male.png') }}" alt=""></i>                                        
+                                                @endif Unmark
                                                 as spam</a>
                                         @endif
                                     </div>
-                                    <div class="col">
+                                    <!-- <div class="col">
                                         <a href="javascript:" data-toggle="modal" data-target="#suggestName"><i><img
                                                         src="{{ asset('public/images/suggest.png') }}" alt=""></i>Suggest
                                             name</a>
-                                    </div>
-                                    <div class="col"><a href="javascript:">
+                                    </div> -->
+                                    <div class="col"><a href="javascript:" class="col-text">
                                             <form id="vcard-form" action="{{ route('download.contact') }}"
                                                   method="post">
                                                 @csrf
@@ -100,9 +157,16 @@
                                                 <input type="hidden" name="cnumber" id="cnumber"
                                                        value="{{ '+'.$data['country']->code.$data['phone_number']}}">
                                             </form>
-                                            <i onclick="$('#vcard-form').submit()"><img
-                                                        src="{{ asset('public/images/save_contact.png') }}" alt=""></i>
-                                            Save contact</a>
+                                           
+                                            
+                                                @if($data['premium'])
+                                                <i  onclick="$('#vcard-form').submit()"><img src="{{ asset('public/images/prime/add_to_contact_prime.png') }}" alt=""></i>
+                                                @elseif($data['gender'] == "Female")                           
+                                                <i  onclick="$('#vcard-form').submit()"><img src="{{ asset('public/images/female/save_contact_female.png') }}" alt=""></i>
+                                                @else
+                                                <i  onclick="$('#vcard-form').submit()"><img src="{{ asset('public/images/general-male/contact_general_male.png') }}" alt=""></i>                                        
+                                                @endif
+                                                Save contact</a>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +175,13 @@
                     <div class="col-lg-11 col-xl-9">
                         <div class="card card-custom">
                             <div class="card-body profile-block">
-                                <div class="card-block"><i><img src="{{ asset('public/images/call.png') }}" alt=""></i>
+                                <div class="card-block">@if($data['premium'])
+                                        <i><img src="{{ asset('public/images/prime/call_prime.png') }}" alt=""></i>
+                                        @elseif($data['gender'] == "Female")                           
+                                        <i><img src="{{ asset('public/images/female/call_female.png') }}" alt=""></i>
+                                        @else
+                                        <i><img src="{{ asset('public/images/general-male/call_general_male.png') }}" alt=""></i>                                        
+                                        @endif
                                     <div class="card-text">
                                         <h3>{{ $data['phone_number'] }}</h3>
                                     </div>
@@ -123,7 +193,14 @@
                         <div class="col-lg-11 col-xl-9">
                             <div class="card card-custom">
                                 <div class="card-body profile-block">
-                                    <div class="card-block"><i><img src="{{ asset('public/images/email.png') }}" alt=""></i>
+                                    <div class="card-block">
+                                    @if($data['premium'])
+                                    <i><img src="{{ asset('public/images/prime/mail_prime.png') }}" alt=""></i>
+                                    @elseif($data['gender'] == "Female")                           
+                                    <i><img src="{{ asset('public/images/female/mail_female.png') }}" alt=""></i>
+                                    @else
+                                    <i><img src="{{ asset('public/images/general-male/mail_general_male.png') }}" alt=""></i>                                        
+                                    @endif
                                         <div class="card-text">
                                             <h3>{{ $data['email'] }}</h3>
                                         </div>
@@ -132,12 +209,20 @@
                             </div>
                         </div>
                     @endif
+                   
                     @if($data['address'])
                         <div class="col-lg-11 col-xl-9">
                             <div class="card card-custom">
                                 <div class="card-body profile-block">
-                                    <div class="card-block"><i><img src="{{ asset('public/images/location_icon.png') }}"
-                                                                    alt=""></i>
+                                    <div class="card-block">
+                                    @if($data['premium'])
+                                    <i><img src="{{ asset('public/images/prime/location_prime.png') }}" alt=""></i>
+                                    @elseif($data['gender'] == "Female")                           
+                                    <i><img src="{{ asset('public/images/female/location_female.png') }}" alt=""></i>
+                                    @else
+                                    <i><img src="{{ asset('public/images/general-male/location_general_male.png') }}" alt=""></i>                                        
+                                    @endif
+
                                         <div class="card-text">
                                             <h3>{{ $data['address'] }}</h3>
                                         </div>
@@ -146,18 +231,75 @@
                             </div>
                         </div>
                     @endif
-                    {{--                <div class="col-lg-11 col-xl-9">--}}
-                    {{--                    <div class="card ">--}}
-                    {{--                        <div class="card-body profile-block">--}}
-                    {{--                            <div class="card-block"><i class="material-icons">domain</i>--}}
-                    {{--                                <div class="card-text">--}}
-                    {{--                                    <h3>Loacation here</h3>--}}
-                    {{--                                    <p>Fixed line - Line Local Providers</p>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
-                    {{--                </div>--}}
+                    @if($data['service_provider'])
+                        <div class="col-lg-11 col-xl-9">
+                            <div class="card card-custom">
+                                <div class="card-body profile-block">
+                                    <div class="card-block">
+                                    @if($data['premium'])
+                                    <i><img src="{{ asset('public/images/prime/operator_prime.png') }}" alt=""></i>
+                                    @elseif($data['gender'] == "Female")                           
+                                    <i><img src="{{ asset('public/images/female/operator_female.png') }}" alt=""></i>
+                                    @else
+                                    <i><img src="{{ asset('public/images/general-male/operator_general_male.png') }}" alt=""></i>                                        
+                                    @endif
+                                                            
+                                        <div class="card-text">
+                                            <h3>{{ $data['service_provider'] }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if($data['premium'])
+                        @if($data['business'])
+                            <div class="col-lg-11 col-xl-9">
+                                <div class="card card-custom">
+                                    <div class="card-body profile-block">
+                                        <div class="card-block">
+                                        <i><img src="{{ asset('public/images/prime/work_prime.png') }}" alt=""></i>
+                                            <div class="card-text">
+                                                <h3>{{ $data['business'] }}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if($data['website'])
+
+                        @php
+                        $var = $data['website'];                          
+                        if(strpos($var, 'https://') != 0) {
+                            $var = 'https://' . $var;
+                        }else{
+                            if(strpos($var, 'http://') != 0) {
+                            $var = 'http://' . $var;
+                            } else {
+                                $var = $var;
+                            }
+                        }
+                        @endphp
+                            <div class="col-lg-11 col-xl-9">
+                                <div class="card card-custom">
+                                    <div class="card-body profile-block">
+                                        <div class="card-block">
+                                        <a href="{{ $var }}" target="_blank"> 
+                                        <i><img src="{{ asset('public/images/prime/weblink_prime.png') }}" alt=""></i>
+                                      </a> 
+                                            
+                                        <a href="{{ $var }}" target="_blank"> 
+                                            <div class="card-text">
+                                                <h3>{{ $data['website'] }}</h3>
+                                            </div>
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
                 </div>
             @else
                 <div class="row row-30 justify-content-lg-center">

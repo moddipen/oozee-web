@@ -1057,7 +1057,7 @@
 
 $('#search-form').on('submit', function () {
     var phone = $('#number').val();
-    if (phone != '' && phone.length == 10 && phone.match(/^\d+$/)) {
+    if (phone != '' && phone.match(/^\+?\d+$/)) {
         return true;
     } else {
         return false;
@@ -1065,7 +1065,7 @@ $('#search-form').on('submit', function () {
 });
 
 $(".numbers").on('keypress', function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13 || e.keyCode == 43) {
         return true;
     }
     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -1074,7 +1074,7 @@ $(".numbers").on('keypress', function (e) {
 });
 
 $("#contact-phone").on('keypress', function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13  || e.keyCode == 43) {
         return true;
     }
     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {

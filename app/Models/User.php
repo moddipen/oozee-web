@@ -330,6 +330,7 @@ class User extends Authenticatable
                 "status" => $user->status,
                 "photo" => $user->photo,
                 "gender" => $gender,
+                "subscribed" => $user->plan_id == 2 ? true : false
             ];
         }
         return $array;
