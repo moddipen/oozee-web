@@ -89,7 +89,8 @@ class UserController extends Controller
              * Add subscription plan
              */
             $userPlan  = UserPlan::where('user_id', $user->id)->first();
-            if (!$userPlan) {
+
+            if (!$userPlan || $userPlan->plan_id == 0) {
                 $userPlan = new UserPlan();
                 $userPlan->user_id = $user->id;
                 $userPlan->plan_id = 1;

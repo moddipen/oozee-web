@@ -8,7 +8,7 @@ use App\Models\DeadContact;
 use App\Models\NumberTag;
 use App\Models\QuickList;
 use App\Models\Setting;
-use App\Models\TempContact;
+use App\Models\TempNewContact;
 use App\Models\SpamNumber;
 use App\Models\User;
 use Brick\PhoneNumber\PhoneNumber;
