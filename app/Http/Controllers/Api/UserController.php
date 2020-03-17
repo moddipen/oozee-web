@@ -103,10 +103,13 @@ class UserController extends Controller
             }
             
             $response = $this->getBearerTokenByUser($user, 1, false);
-            $data = ['access_token' => $response['access_token'], 'refresh_token' => $response['refresh_token'], 'user_id' => $userId, 'current_plan' => $userPlan->planWithFeatures()];
+            $currentPlan = $userPlan->planWithFeatures();
+            $data = ['access_token' => $response['access_token'], 'refresh_token' => $response['refresh_token'], 'user_id' => $userId, 'current_plan' => $currentPlan];
             $data['mutualEnable'] = true;
             $data['statusEnable'] = true;
             $data['genderEnable'] = true;
+            $data['renew_date'] = $currentPlan->renew_date;
+            $data['order_id'] = $currentPlan->order_id;
             $mutual = Setting::where('user_id', $user->id)->where('name', 'mutual')->first();
             if ($mutual) {
                 $data['mutualEnable'] = $mutual->value == 0 ? false : true;
