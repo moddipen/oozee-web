@@ -1,0 +1,28 @@
+
+
+<html><head></head><body onload="getMobileOperatingSystem()">
+<script>
+function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Windows Phone must come first because its UA also contains "Android"
+   
+
+ if (/android/i.test(userAgent)) {
+       window.location ="https://play.google.com/store/apps/details?id=com.app.oozee";
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+else    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+       window.location ="https://apps.apple.com/us/app/oozee-smart-phonebook-chat/id1478753850?ls=1";
+    }
+    else{
+        
+        window.location ="https://oozee.com/";
+    }
+
+   
+}
+</script>
+
+</body></html>

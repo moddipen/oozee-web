@@ -35,6 +35,7 @@ class PermissionController extends Controller
             'News',
             'Subscription plan',
             'Contacts',
+            'Feedback',
         ];
         $this->types = [
             'Create',

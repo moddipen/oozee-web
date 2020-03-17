@@ -6,6 +6,7 @@ use App\Models\Plan;
 use App\Models\PlanFeature;
 use App\Models\UserPlan;
 use App\Models\UserPlanHistory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -59,16 +60,20 @@ class PlanController extends Controller
             $userPlan->user_id = $request->user_id;
         }
         $userPlan->plan_id = $request->plan_id;
+        $userPlan->order_id = $request->order_id ?? '';
+        $userPlan->renew_date = $request->duration != 0 ? Carbon::now()->addMonths($request->duration)->format('Y-m-d H:i:s') : Carbon::now()->format('Y-m-d H:i:s');
         if ($userPlan->save()) {
             $history = new UserPlanHistory();
             $history->user_id = $request->user_id;
             $history->plan_id = $request->plan_id;
+            $userPlan->order_id = $request->order_id ?? '';
+            $userPlan->renew_date = $request->duration != 0 ? Carbon::now()->addMonths($request->duration)->format('Y-m-d H:i:s') : Carbon::now()->format('Y-m-d H:i:s');
             $history->save();
 
             $plan = Plan::find($request->plan_id);
             $plan->defaultFeatures = PlanFeature::select('id','title')->where('for', $plan->type)->get();
             $plan->extraFeatures = PlanFeature::select('id','title')->whereIn('id', explode(',', $plan->features))->get();
-            return $this->makeResponse('User plan updated successfully.', ['plan' => $plan], 200);
+            return $this->makeResponse('User plan updated successfully.', ['plan' => $plan, 'renew_date' => $request->duration != 0 ? Carbon::parse($userPlan->renew_date)->format('d F Y') : ''], 200);
         } else {
             return $this->makeError('Unable to update plan.', [], 410);
         }

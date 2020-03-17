@@ -2217,6 +2217,12 @@
         },
         "plan_id": {
           "type": "integer"
+        },
+        "order_id": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
         }
       }
     },

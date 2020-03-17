@@ -96,6 +96,14 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::delete('blogs/{id}','BlogController@destroy')->name('blogs.destroy');
     });
 
+     /**
+     * Feedback routes
+     */
+    Route::group(['middleware' => ['permission:feedback']], function () {
+        Route::get('feedback','FeedbackController@index')->name('feedback.index');
+        Route::get('feedback-ajax', 'FeedbackController@getFeedback')->name('ajax.feedback');
+    });
+
     /**
      * News routes
      */

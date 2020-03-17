@@ -96,5 +96,14 @@
             </a>
         </li>
     @endif
+
+    @if(Auth::guard('admin')->user()->hasAnyPermission(['feedback']))
+    <li class="{{ ( Request::is('admin/feedback') || Request::is('admin/feedback/*') ) ? 'active' : '' }}">
+            <a href="{{ route('admin.feedback.index') }}">
+                <i class="livicon" data-name="comment" data-size="18" data-c="#418BCA" data-hc="#418BCA" data-loop="true"></i>
+                <span class="title">Feedback</span>
+            </a>
+        </li>
+        @endif
 </ul>
 <!-- END SIDEBAR MENU -->
