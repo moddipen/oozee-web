@@ -94,11 +94,15 @@ class UserController extends Controller
                 $userPlan = new UserPlan();
                 $userPlan->user_id = $user->id;
                 $userPlan->plan_id = 1;
+                $userPlan->renew_date = null;
+                $userPlan->order_id = null;
                 $userPlan->save();
 
                 $userPlanHistory = new UserPlanHistory();
                 $userPlanHistory->user_id = $user->id;
                 $userPlanHistory->plan_id = 1;
+                $userPlanHistory->renew_date = null;
+                $userPlanHistory->order_id = null;
                 $userPlanHistory->save();
             }
             
