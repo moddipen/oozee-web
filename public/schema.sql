@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.28, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
--- Host: database-1.c1bfswmey9j3.us-east-2.rds.amazonaws.com    Database: oozee
+-- Host: oozee-db.c1bfswmey9j3.us-east-2.rds.amazonaws.com    Database: oozee
 -- ------------------------------------------------------
 -- Server version	5.7.22-log
 
@@ -70,7 +70,7 @@ CREATE TABLE `blocked_contacts` (
   PRIMARY KEY (`id`),
   KEY `blocked_contacts_user_id_foreign` (`user_id`),
   CONSTRAINT `blocked_contacts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `blogs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,14 +133,15 @@ CREATE TABLE `contacts` (
   `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `active_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `active_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `max_count` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `contacts_phone_number_id_foreign` (`phone_number_id`),
   KEY `part_of_uid` (`user_id`),
   CONSTRAINT `contacts_phone_number_id_foreign` FOREIGN KEY (`phone_number_id`) REFERENCES `phone_numbers` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11509010 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89104132 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +211,7 @@ CREATE TABLE `feedback` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,7 +274,7 @@ CREATE TABLE `media` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `media_model_type_model_id_index` (`model_type`,`model_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1816 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4167 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -311,7 +312,7 @@ CREATE TABLE `messages` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1201 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1613 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +327,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +403,7 @@ CREATE TABLE `notes` (
   PRIMARY KEY (`id`),
   KEY `notes_user_id_foreign` (`user_id`),
   CONSTRAINT `notes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +422,7 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=599 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1685 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -535,7 +536,7 @@ CREATE TABLE `online_users` (
   `last_seen` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24774 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -569,7 +570,7 @@ CREATE TABLE `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -587,7 +588,7 @@ CREATE TABLE `phone_numbers` (
   KEY `phone_numbers_number_index` (`number`),
   KEY `phone_numbers_country_id_index` (`country_id`),
   CONSTRAINT `phone_numbers_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11500367 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81137786 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -642,7 +643,7 @@ CREATE TABLE `quick_lists` (
   PRIMARY KEY (`id`),
   KEY `quick_lists_user_id_foreign` (`user_id`),
   CONSTRAINT `quick_lists_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -716,7 +717,41 @@ CREATE TABLE `settings` (
   PRIMARY KEY (`id`),
   KEY `settings_user_id_foreign` (`user_id`),
   CONSTRAINT `settings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `spam_numbers`
+--
+
+DROP TABLE IF EXISTS `spam_numbers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spam_numbers` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `number` bigint(20) NOT NULL,
+  `spam_by` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 = admin, 1 = user',
+  `counts` int(11) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `spam_series`
+--
+
+DROP TABLE IF EXISTS `spam_series`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spam_series` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `number` bigint(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -778,7 +813,7 @@ CREATE TABLE `tag_to_numbers` (
   PRIMARY KEY (`id`),
   KEY `tag_to_numbers_user_id_foreign` (`user_id`),
   KEY `tag_to_numbers_tag_id_foreign` (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=456 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -827,7 +862,205 @@ CREATE TABLE `temp_contacts` (
   `dob` date DEFAULT NULL,
   PRIMARY KEY (`phone_number`,`active_date`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2189067 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_1_jio`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_1_jio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_1_jio` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=490008 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_airtel`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_airtel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_airtel` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=929 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_airtel_guj_01`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_airtel_guj_01`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_airtel_guj_01` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15147740 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_bsnl_guj_01`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_bsnl_guj_01`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_bsnl_guj_01` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5707379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_idea_guj_03`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_idea_guj_03`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_idea_guj_03` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_jio_guj_01`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_jio_guj_01`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_jio_guj_01` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21580001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -840,7 +1073,7 @@ DROP TABLE IF EXISTS `temp_contacts_tc`;
 CREATE TABLE `temp_contacts_tc` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL,
-  `country_id` int(11) NOT NULL,
+  `country_id` int(11) NOT NULL DEFAULT '99',
   `phone_number` bigint(20) NOT NULL,
   `first_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '',
@@ -855,7 +1088,40 @@ CREATE TABLE `temp_contacts_tc` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38864138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38861370 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temp_contacts_vodafone_guj_01`
+--
+
+DROP TABLE IF EXISTS `temp_contacts_vodafone_guj_01`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_contacts_vodafone_guj_01` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  `phone_number` bigint(20) NOT NULL,
+  `active_date` date NOT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `service_provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Idea',
+  `state_circle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Gujarat',
+  `service_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Mobile',
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `gender2` int(2) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  PRIMARY KEY (`phone_number`,`active_date`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14239326 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -871,7 +1137,7 @@ CREATE TABLE `temp_media` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1814 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -899,7 +1165,7 @@ CREATE TABLE `temp_new_contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=96644 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80998 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -937,7 +1203,7 @@ CREATE TABLE `user_locations` (
   PRIMARY KEY (`id`),
   KEY `user_locations_user_id_foreign` (`user_id`),
   CONSTRAINT `user_locations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -953,10 +1219,12 @@ CREATE TABLE `user_plan_histories` (
   `plan_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `order_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `renew_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_plan_histories_user_id_foreign` (`user_id`),
   CONSTRAINT `user_plan_histories_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -969,13 +1237,15 @@ DROP TABLE IF EXISTS `user_plans`;
 CREATE TABLE `user_plans` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL,
-  `plan_id` int(11) NOT NULL DEFAULT '0',
+  `plan_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `order_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `renew_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_plans_user_id_foreign` (`user_id`),
   CONSTRAINT `user_plans_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=294 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1006,7 +1276,7 @@ CREATE TABLE `user_profiles` (
   PRIMARY KEY (`id`),
   KEY `user_profiles_user_id_foreign` (`user_id`),
   CONSTRAINT `user_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1023,7 +1293,7 @@ CREATE TABLE `user_statuses` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20775 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1047,7 +1317,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `users_phone_number_id_foreign` (`phone_number_id`),
   CONSTRAINT `users_phone_number_id_foreign` FOREIGN KEY (`phone_number_id`) REFERENCES `phone_numbers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1090,13 +1360,13 @@ CREATE TABLE `web_users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `web_users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping routines for database 'oozee'
 --
-/*!50003 DROP PROCEDURE IF EXISTS `check_gender_show` */;
+/*!50003 DROP PROCEDURE IF EXISTS `add_tag_to_number` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -1106,15 +1376,45 @@ CREATE TABLE `web_users` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
+CREATE DEFINER=`admin`@`%` PROCEDURE `add_tag_to_number`(IN pnumber BIGINT, IN cid BIGINT, IN userId BIGINT, IN tagId BIGINT)
+BEGIN
+	SELECT @tagId := tag_id FROM sub_tags WHERE sub_tags.id = tagId;
+	IF NOT @tagId IS NULL
+	THEN 
+		SELECT @numberTag := id FROM tag_to_numbers WHERE tag_to_numbers.sub_tag_id = tagId AND tag_to_numbers.phone_number=pnumber;
+		IF @numberTag IS NULL
+		THEN
+			INSERT INTO `tag_to_numbers` (`tag_id`, `sub_tag_id`, `phone_number`, `user_id`, `country_id`) VALUES (@tagId, tagId, pnumber, userId, cid);
+		END IF;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `check_gender_show` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
 CREATE DEFINER=`admin`@`%` PROCEDURE `check_gender_show`(IN `uid` BIGINT, OUT `outShow` INT)
 BEGIN
     SET outShow = 1;
-    
-    SELECT @settindId := id FROM settings WHERE settings.user_id = uid AND settings.name = 'gender';
-    IF NOT @settindId IS NULL
+    SELECT @planID := id FROM user_plans WHERE user_plans.plan_id = 2 AND user_plans.user_id = uid;
+    IF NOT @planID IS NULL
     THEN
-    SET outShow = (SELECT value FROM settings WHERE settings.id = @settindId);
-    END IF;
+	    SELECT @settindId := id FROM settings WHERE settings.user_id = uid AND settings.name = 'gender';
+	    IF NOT @settindId IS NULL
+	    THEN
+	    	SET outShow = (SELECT value FROM settings WHERE settings.id = @settindId);
+	    END IF;
+	END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1191,9 +1491,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -1201,7 +1501,7 @@ CREATE DEFINER=`admin`@`%` PROCEDURE `get_contact_users_for_chat_new`(IN user_id
 BEGIN
 	SELECT v1.id as user_id, v2.number, v3.photo, v3.first_name, v3.last_name FROM users v1
 	JOIN phone_numbers v2 ON (v1.phone_number_id = v2.id)
-	JOIN user_profiles v3 ON (v1.id = v3.user_id) WHERE 1;
+	JOIN user_profiles v3 ON (v1.id = v3.user_id) WHERE v1.device_type = 'ios';
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1234,9 +1534,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -1246,7 +1546,12 @@ BEGIN
     JOIN phone_numbers v2 ON (v1.phone_number_id = v2.id)
     JOIN users v3 ON (v2.id = v3.phone_number_id)
     JOIN user_profiles v4 ON (v3.id = v4.user_id)
-    JOIN user_statuses v5 ON (v3.id = v5.user_id)
+    JOIN (
+              SELECT    MAX(id) max_id, user_id 
+              FROM      user_statuses 
+              GROUP BY  user_id
+          ) c_max ON (c_max.user_id = v3.id)
+    JOIN user_statuses v5 ON (v5.id = c_max.max_id)
     WHERE v1.user_id = user_id;
 END ;;
 DELIMITER ;
@@ -1258,9 +1563,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -1534,13 +1839,13 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `get_number_details_new`(IN `pnumber` BIGINT, IN `cid` BIGINT, IN `uid` BIGINT, OUT `OutFirstName` VARCHAR(191) CHARSET utf8mb4, OUT `OutLastName` VARCHAR(191) CHARSET utf8mb4, OUT `OutEmail` VARCHAR(191), OUT `OutUserID` BIGINT, OUT `OutNumberID` BIGINT, OUT `OutContactID` BIGINT, OUT `OutAddress` VARCHAR(191), OUT `OutServiceProvider` VARCHAR(191), OUT `OutPhoto` VARCHAR(191), OUT `OutGender` VARCHAR(191), OUT `OutSpam` BIGINT, OUT `OutBlock` INT)
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_number_details_new`(IN `pnumber` BIGINT, IN `cid` BIGINT, IN `uid` BIGINT, OUT `OutFirstName` VARCHAR(191) CHARSET utf8mb4, OUT `OutLastName` VARCHAR(191) CHARSET utf8mb4, OUT `OutEmail` VARCHAR(191), OUT `OutUserID` BIGINT, OUT `OutNumberID` BIGINT, OUT `OutContactID` BIGINT, OUT `OutAddress` VARCHAR(191), OUT `OutServiceProvider` VARCHAR(191), OUT `OutPhoto` VARCHAR(191), OUT `OutGender` VARCHAR(191), OUT `OutSpam` BIGINT, OUT `OutSpamCount` BIGINT, OUT `OutBlock` INT, OUT `OutSubscribed` INT, OUT `OutWebsite` VARCHAR(191), OUT `OutBusiness` VARCHAR(191))
 BEGIN
     SET OutFirstName = NULL;
     SET OutLastName = NULL;
@@ -1553,7 +1858,11 @@ BEGIN
     SET OutNumberID = 0;
     SET OutContactID = 0;
     SET OutSpam = 0;
+    SET OutSpamCount = 0;
     SET OutBlock = 0;
+    SET OutSubscribed = 0;
+    SET OutWebsite = NULL;
+    SET OutBusiness = NULL;
     
     SELECT @numberID := id FROM phone_numbers WHERE phone_numbers.country_id = cid AND phone_numbers.number = pnumber;
     IF NOT @numberID IS NULL
@@ -1567,9 +1876,25 @@ BEGIN
             SELECT @Address := (SELECT address FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutPhoto = (SELECT photo FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutGender = (SELECT gender FROM user_profiles WHERE user_profiles.user_id = @userID);
+            SET OutWebsite = (SELECT website FROM user_profiles WHERE user_profiles.user_id = @userID);
+            SET OutBusiness = (SELECT company_name FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutUserID = @userID;
             SET OutNumberID = @numberID;
-            SELECT COUNT(*) INTO OutSpam FROM blocked_contacts WHERE blocked_contacts.country_id = cid AND blocked_contacts.phone_number = pnumber;
+            SELECT count(*) INTO OutSubscribed FROM user_plans c1 JOIN plans c2 ON (c1.plan_id = c2.id) WHERE c2.type = 1 AND c1.user_id = @userID;
+
+            SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+		    IF NOT @spamID IS NULL
+		    THEN
+		    	SET OutSpam = 1;
+		    	SET OutSpamCount = (SELECT counts FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25));
+		    ELSE
+		    	SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+		    	IF NOT @spamSeriesID IS NULL
+		    	THEN
+		    		SET OutSpam = 1;
+		    	END IF;
+		    END IF;
+
             SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
             IF(@Address IS NULL OR @Address = '')
             THEN
@@ -1580,17 +1905,38 @@ BEGIN
         ELSE
             IF NOT @numberID IS NULL
             THEN 
-                SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-                SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-                SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
+                SELECT @maxContactId := id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1;
+                IF NOT @maxContactId IS NULL
+                THEN 
+                    SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1 LIMIT 1);
+                    SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1 LIMIT 1);
+                    SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 0 LIMIT 1);
+                    SET OutContactID = (SELECT id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 0 LIMIT 1);
+                    SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 0 LIMIT 1);
+                ELSE
+                    SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutContactID = (SELECT id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                END IF;
+                SET OutGender = (SELECT gender FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
                 SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
                 SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-                SET OutContactID = (SELECT id FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-                SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-                SET OutGender = (SELECT gender FROM contacts WHERE contacts.user_id = @userID);
                 SET OutUserID = 0;
                 SET OutNumberID = @numberID;
-                SELECT COUNT(*) INTO OutSpam FROM blocked_contacts WHERE blocked_contacts.country_id = cid AND blocked_contacts.phone_number = pnumber;
+                SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+			    IF NOT @spamID IS NULL
+			    THEN
+			    	SET OutSpam = 1;
+			    	SET OutSpamCount = (SELECT counts FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25));
+			    ELSE
+			    	SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+			    	IF NOT @spamSeriesID IS NULL
+			    	THEN
+			    		SET OutSpam = 1;
+			    	END IF;
+			    END IF;
             END IF;
         END IF;
     ELSE
@@ -1601,6 +1947,19 @@ BEGIN
     IF NOT @BlockId IS NULL
     THEN
     	SET OutBlock = @BlockId;
+    END IF;
+
+    SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+    IF NOT @spamID IS NULL
+    THEN
+        SET OutSpam = 1;
+        SET OutSpamCount = (SELECT counts FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25));
+    ELSE
+        SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+        IF NOT @spamSeriesID IS NULL
+        THEN
+            SET OutSpam = 1;
+        END IF;
     END IF;
 END ;;
 DELIMITER ;
@@ -1623,7 +1982,7 @@ BEGIN
     SELECT v1.id, IFNULL(v2.id, 0) as tag_id, IFNULL(v2.name, '') as tag_name, IFNULL(v3.id, 0) as sub_tag_id, IFNULL(v3.name, '') as sub_tag_name FROM tag_to_numbers v1 
     LEFT JOIN tags v2 ON (v1.tag_id = v2.id) 
     LEFT JOIN sub_tags v3 ON (v1.sub_tag_id = v3.id) 
-    WHERE v1.user_id = uid AND v1.phone_number = pnumber AND v1.country_id = cid;
+    WHERE v1.user_id = uid AND v1.phone_number = pnumber AND v1.country_id = cid AND v1.tag_id != 0 AND v1.sub_tag_id != 0;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1684,6 +2043,25 @@ DELIMITER ;;
 CREATE DEFINER=`admin`@`%` PROCEDURE `get_temp_contact_lists`(lm bigint)
 BEGIN
 	SELECT * from temp_contacts limit lm;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_temp_contact_tc_lists` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_temp_contact_tc_lists`(lm bigint)
+BEGIN
+	SELECT * from temp_contacts_tc limit lm;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1964,13 +2342,13 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `search_contact_new`(IN `authUserId` BIGINT, IN `pnumber` BIGINT, IN `cid` BIGINT, OUT `OutFirstName` VARCHAR(191) CHARSET utf8mb4, OUT `OutLastName` VARCHAR(191) CHARSET utf8mb4, OUT `OutEmail` VARCHAR(191), OUT `OutAddress` VARCHAR(191), OUT `OutPhoto` VARCHAR(191), OUT `OutGender` VARCHAR(191), OUT `OutUserID` BIGINT, OUT `OutSpam` BIGINT, OUT `OutServiceProvider` VARCHAR(191), OUT `OutSubscribed` INT, OUT `OutWebsite` VARCHAR(191), OUT `OutBusiness` VARCHAR(191))
+CREATE DEFINER=`admin`@`%` PROCEDURE `search_contact_new`(IN `authUserId` BIGINT, IN `pnumber` BIGINT, IN `cid` BIGINT, OUT `OutFirstName` VARCHAR(191) CHARSET utf8mb4, OUT `OutLastName` VARCHAR(191) CHARSET utf8mb4, OUT `OutEmail` VARCHAR(191), OUT `OutAddress` VARCHAR(191), OUT `OutPhoto` VARCHAR(191), OUT `OutGender` VARCHAR(191), OUT `OutUserID` BIGINT, OUT `OutSpam` BIGINT, OUT `OutSpamCount` BIGINT, OUT `OutServiceProvider` VARCHAR(191), OUT `OutSubscribed` INT, OUT `OutWebsite` VARCHAR(191), OUT `OutBusiness` VARCHAR(191))
 BEGIN
     SET OutFirstName = NULL;
     SET OutLastName = NULL;
@@ -1979,6 +2357,7 @@ BEGIN
     SET OutPhoto = NULL;
     SET OutGender = NULL;
     SET OutSpam = 0;
+    SET OutSpamCount = 0;
     SET OutUserID = 0;
     SET OutServiceProvider = NULL;
     SET OutWebsite = NULL;
@@ -1991,7 +2370,7 @@ BEGIN
         SELECT @userID := id FROM users WHERE users.phone_number_id = @numberID AND users.deleted_at IS NULL;
         IF NOT @userID IS NULL
         THEN 
-        	SET OutUserID = @userID;
+            SET OutUserID = @userID;
             SET OutFirstName = (SELECT first_name FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutLastName = (SELECT last_name FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutEmail = (SELECT email FROM user_profiles WHERE user_profiles.user_id = @userID);
@@ -2001,43 +2380,74 @@ BEGIN
             SET OutWebsite = (SELECT website FROM user_profiles WHERE user_profiles.user_id = @userID);
             SET OutBusiness = (SELECT company_name FROM user_profiles WHERE user_profiles.user_id = @userID);
             SELECT count(*) INTO OutSubscribed FROM user_plans c1 JOIN plans c2 ON (c1.plan_id = c2.id) WHERE c2.type = 1 AND c1.user_id = @userID;
-            SELECT COUNT(*) INTO OutSpam FROM blocked_contacts WHERE blocked_contacts.country_id = cid AND blocked_contacts.phone_number = pnumber;
+            
+            SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+            IF NOT @spamID IS NULL
+            THEN
+                SET OutSpam = 1;
+                SET OutSpamCount = (SELECT counts FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25));
+            ELSE
+                SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+                IF NOT @spamSeriesID IS NULL
+                THEN
+                    SET OutSpam = 1;
+                END IF;
+            END IF;
+  
             SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
             IF NULLIF(@Address, '') IS NULL
             THEN
-            	SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
+                SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
             ELSE
-            	SET OutAddress = @Address;
+                SET OutAddress = @Address;
             END IF;
         ELSE
             IF NOT @numberID IS NULL
             THEN 
-            	SELECT @userContactID := id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId;
-            	IF NOT @userContactID IS NULL
-            	THEN
-	                SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId);
-	                SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId);
-	                SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId);
-	                SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-	                SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-	                SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId);
-	                SET OutGender = (SELECT gender FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = authUserId);
-	                SELECT COUNT(*) INTO OutSpam FROM blocked_contacts WHERE blocked_contacts.country_id = cid AND blocked_contacts.phone_number = pnumber;
-	            ELSE
-	            	SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-	                SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-	                SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-	                SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-	                SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-	                SET OutGender = (SELECT gender FROM contacts WHERE contacts.phone_number_id = @numberID ORDER BY id DESC LIMIT 1);
-	                SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-	                SELECT COUNT(*) INTO OutSpam FROM blocked_contacts WHERE blocked_contacts.country_id = cid AND blocked_contacts.phone_number = pnumber;
-	            END IF;
+                SELECT @maxContactId := id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1;
+                IF NOT @maxContactId IS NULL
+                THEN 
+                    SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1 LIMIT 1);
+                    SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 1 LIMIT 1);
+                    SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 0 LIMIT 1);
+                    SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.max_count = 0 LIMIT 1);
+                ELSE
+                    SET OutFirstName = (SELECT first_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutLastName = (SELECT last_name FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutEmail = (SELECT email FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                    SET OutPhoto = (SELECT photo FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                END IF;
+                SET OutGender = (SELECT gender FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = 0 LIMIT 1);
+                SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
+                SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
+
+                SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+                IF NOT @spamID IS NULL
+                THEN
+                    SET OutSpam = 1;
+                ELSE
+                    SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+                    IF NOT @spamSeriesID IS NULL
+                    THEN
+                        SET OutSpam = 1;
+                    END IF;
+                END IF;
             END IF;
         END IF;
     ELSE
-    	SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
-		SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
+        SELECT @spamID := id FROM spam_numbers WHERE spam_numbers.number = pnumber AND (spam_numbers.spam_by = 0 OR spam_numbers.counts >= 25);
+        IF NOT @spamID IS NULL
+        THEN
+            SET OutSpam = 1;
+        ELSE
+            SELECT @spamSeriesID := id FROM spam_series WHERE pnumber LIKE CONCAT(number, '%');
+            IF NOT @spamSeriesID IS NULL
+            THEN
+                SET OutSpam = 1;
+            END IF;
+        END IF;
+        SET OutAddress = ( SELECT CONCAT(state_circle, ' ', country) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
+        SET OutServiceProvider = ( SELECT CONCAT(operator, '-', service_type) FROM std_codes WHERE pnumber LIKE CONCAT(msc, '%') ORDER BY id DESC LIMIT 1 );
     END IF;
 END ;;
 DELIMITER ;
@@ -2334,9 +2744,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -2395,6 +2805,115 @@ BEGIN
         INSERT INTO `contacts` (`first_name`, `last_name`, `user_id`, `phone_number_id`, `email`, `photo`, `gender`, `active_date`, `service_provider`, `location`, `state_circle`, `created_at`, `updated_at`) 
         VALUES (fname, lname, userId, @numberID, email, photo, gender, OutActiveDate, service_provider, location, state_circle, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
     END IF;
+    
+    SELECT @maxID := A.id, count(A.first_name) as counts FROM contacts A WHERE A.phone_number_id = @numberID group by A.first_name, A.last_name ORDER BY counts DESC LIMIT 1;
+    UPDATE contacts set max_count = 0 where  contacts.phone_number_id = @numberID;
+    UPDATE contacts set max_count = 1 where  contacts.id = @maxID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sync_contacts_new` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`admin`@`%` PROCEDURE `sync_contacts_new`(IN `pnumber` BIGINT, IN `cid` BIGINT, IN `userId` BIGINT, IN `fname` VARCHAR(191) CHARSET utf8mb4, IN `lname` VARCHAR(191) CHARSET utf8mb4, IN `email` VARCHAR(191), IN `photo` VARCHAR(191), IN `gender` VARCHAR(191), IN `service_provider` VARCHAR(191), IN `state_circle` VARCHAR(191), IN `location` VARCHAR(191), IN `OutActiveDate` VARCHAR(191))
+BEGIN
+    SET @numberID = NULL;
+    SET @contactID = NULL;
+    SET @activeDate = NULL;
+    SET @activeContactID = NULL;
+    SELECT @numberID := id FROM phone_numbers WHERE phone_numbers.country_id = cid AND phone_numbers.number = pnumber;
+    IF NOT @numberID IS NULL
+    THEN 
+        SELECT @contactID := id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = userId;
+        IF NOT @contactID IS NULL
+        THEN
+        	SELECT @activeDate := active_date FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = userId AND contacts.user_id = 0;
+        	IF NOT @activeDate IS NULL
+        	THEN
+        		IF NOT OutActiveDate IS NULL
+        		THEN
+	        		SELECT @activeContactID := id FROM contacts WHERE contacts.phone_number_id = @numberID AND contacts.user_id = userId AND contacts.user_id = 0;
+	        		UPDATE `contacts` SET 
+	        		`first_name` = fname,
+	        		`last_name` = lname, 
+	        		`email` = email, 
+	        		`photo` = photo, 
+	        		`gender` = gender, 
+	        		`service_provider` = service_provider, 
+	        		`state_circle` = state_circle, 
+	        		`location` = location, 
+	        		`active_date` = OutActiveDate 
+	        		WHERE contacts.id = @activeContactID 
+	        		AND str_to_date(contacts.active_date, '%Y-%m-%d') < str_to_date(OutActiveDate, '%Y-%m-%d' );
+	        	END IF;
+        	ELSE	
+            	UPDATE `contacts` SET 
+            	`first_name` = fname, 
+            	`last_name` = lname, 
+            	`email` = email, 
+            	`photo` = photo, 
+            	`gender` = gender, 
+            	`service_provider` = service_provider, 
+            	`state_circle` = state_circle, 
+            	`location` = location, 
+            	`active_date` = OutActiveDate 
+            	WHERE contacts.id = @contactID;
+            END IF;
+        ELSE
+            INSERT INTO `contacts` (`first_name`, `last_name`, `user_id`, `phone_number_id`, `email`, `photo`, `gender`, `active_date`, `service_provider`, `location`, `state_circle`, `created_at`, `updated_at`) 
+            VALUES (fname, lname, userId, @numberID, email, photo, gender, OutActiveDate, service_provider, location, state_circle, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+        END IF;
+    ELSE
+        INSERT INTO `phone_numbers` (`number`, `country_id`) 
+        VALUES (pnumber, cid);
+        SELECT @numberID := LAST_INSERT_ID();
+        INSERT INTO `contacts` (`first_name`, `last_name`, `user_id`, `phone_number_id`, `email`, `photo`, `gender`, `active_date`, `service_provider`, `location`, `state_circle`, `created_at`, `updated_at`) 
+        VALUES (fname, lname, userId, @numberID, email, photo, gender, OutActiveDate, service_provider, location, state_circle, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+    END IF;
+
+    SELECT @maxID := A.id, count(A.first_name) as counts FROM contacts A WHERE A.phone_number_id = @numberID group by A.first_name, A.last_name ORDER BY counts DESC LIMIT 1;
+    UPDATE contacts set max_count = 0 where  contacts.phone_number_id = @numberID;
+    UPDATE contacts set max_count = 1 where  contacts.id = @maxID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_contacts_with_flag` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`admin`@`%` PROCEDURE `update_contacts_with_flag`()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE j INT DEFAULT (SELECT id FROM phone_numbers ORDER BY id DESC LIMIT 1);
+    WHILE (i <= j) DO
+    	SELECT @numberID := id FROM phone_numbers WHERE phone_numbers.id = i;
+	    IF NOT @numberID IS NULL
+	    THEN
+	      	SELECT @maxID := A.id, count(A.first_name) as counts FROM contacts A WHERE A.phone_number_id = @numberID AND A.user_id != 0 group by A.first_name, A.last_name ORDER BY counts DESC LIMIT 1;
+		    UPDATE contacts set max_count = 0 where  contacts.phone_number_id = @numberID;
+		    UPDATE contacts set max_count = 1 where  contacts.id = @maxID;
+		    SET i = i + 1;
+		END IF;
+    END WHILE;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2503,14 +3022,15 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`admin`@`%` PROCEDURE `user_status_update`(IN user_id BIGINT, IN status VARCHAR(191))
 BEGIN
+	DELETE FROM user_statuses WHERE user_statuses.user_id = user_id;
 	SELECT @userID := id FROM user_statuses WHERE user_statuses.user_id = user_id;
     IF NOT @userID IS NULL
     THEN
@@ -2534,4 +3054,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-07 11:01:38
+-- Dump completed on 2020-03-28  7:29:31
