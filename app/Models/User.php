@@ -127,10 +127,10 @@ class User extends Authenticatable
     public function getContactDetails($userData)
     {
         DB::statement(
-            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutSpamCount, @OutBlock, @Subscribed, @Website, @Business)')
+            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutSpamCount, @OutBlock, @Subscribed, @Website, @Business, @About, @BusinessAddress, @Industry)')
         );
         $result = DB::select(
-            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutSpamCount as spamCount, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business'
+            'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutSpamCount as spamCount, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business, @About as about, @BusinessAddress as business_address, @Industry as industry'
         )[0];
 
         if ($result->user_id != 0) {

@@ -55,7 +55,7 @@ class ContactController extends Controller
                 $block->counts = 1;
             }
             $block->save();
-            
+
         } elseif ($type == 'quick') {
             $contact = new QuickList();
         } elseif ($type == 'dead') {
@@ -351,6 +351,9 @@ class ContactController extends Controller
             'spamCount' => $result->spamCount,
             'website' => $result->website ?? '',
             'business' => $result->business ?? '',
+            'about' => $result->about ?? '',
+            'business_address' => $result->business_address ?? '',
+            'industry' => $result->industry ?? '',
             'locations' => $result->locations,
             'isBlock' => $result->isblock,
             'premium' => $result->subscribed == 1 ? true : false,
