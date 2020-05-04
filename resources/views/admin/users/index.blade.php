@@ -27,7 +27,7 @@
     <link href="{{ asset('public/assets/vendors/iCheck/css/all.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('public/assets/vendors/bootstrap-switch/css/bootstrap-switch.css') }}" rel="stylesheet"
           type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <style>
         /* Absolute Center Spinner */
         .loading {
@@ -52,7 +52,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0, 0, 0, 0.3);
         }
 
         /* :not(:required) hides these rules from IE9 and below */
@@ -100,6 +100,7 @@
                 transform: rotate(360deg);
             }
         }
+
         @-moz-keyframes spinner {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -116,6 +117,7 @@
                 transform: rotate(360deg);
             }
         }
+
         @-o-keyframes spinner {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -132,6 +134,7 @@
                 transform: rotate(360deg);
             }
         }
+
         @keyframes spinner {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -148,6 +151,10 @@
                 transform: rotate(360deg);
             }
         }
+
+        .filter-options .form-inline {
+            margin-top: 7px;
+        }
     </style>
 @stop
 
@@ -160,18 +167,55 @@
             <div class="col-12">
                 <div class="card panel-success ">
                     <div class="card-heading">
-                        <h4 class="card-title pull-left add_remove_title"><i class="livicon" data-name="users"
-                                                                             data-size="16" data-loop="true"
-                                                                             data-c="#fff" data-hc="white"></i>
-                            App Users
-                        </h4>
-                        <div class="pull-right">
-                            <div class="form-inline">
-                                <div class="input-daterange input-group" id="datepicker">
-                                    <input type="text" class="input-sm form-control" name="dates" />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4 class="card-title pull-left add_remove_title"><i class="livicon" data-name="users"
+                                                                                     data-size="16" data-loop="true"
+                                                                                     data-c="#fff" data-hc="white"></i>
+                                    App Users
+                                </h4>
+                            </div>
+                            <div class="col-md-5 filter-options">
+                                <div class="form-inline">
+                                    <div class="form-check">
+                                        <input type="checkbox" onchange="filterOption()" class="form-check-input"
+                                               name="prime" id="prime">
+                                        <label class="form-check-label" for="prime">Prime</label>
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="form-check">
+                                        <input type="checkbox" onchange="filterOption()" class="form-check-input"
+                                               name="android" id="android">
+                                        <label class="form-check-label" for="android">Android</label>
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="form-check">
+                                        <input type="checkbox" onchange="filterOption()" class="form-check-input"
+                                               name="ios" id="ios">
+                                        <label class="form-check-label" for="ios">IOS</label>
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="form-check">
+                                        <input type="checkbox" onchange="filterOption()" class="form-check-input"
+                                               name="male" id="male">
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="form-check">
+                                        <input type="checkbox" onchange="filterOption()" class="form-check-input"
+                                               name="female" id="female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
                                 </div>
-                                <input type="hidden" name="start" id="start" value="{{ \Carbon\Carbon::now()->addDays(-30)->format('m/d/Y') }}">
-                                <input type="hidden" name="end" id="end" value="{{ \Carbon\Carbon::now()->format('m/d/Y') }}">
+                            </div>
+                            <div class="col-md-4 pull-right">
+                                <div class="form-inline">
+                                    <div class="input-daterange input-group" id="datepicker">
+                                        <input type="text" class="input-sm form-control" name="dates"/>
+                                    </div>
+                                    <input type="hidden" name="start" id="start" value="">
+                                    <input type="hidden" name="end" id="end" value="">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,7 +250,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="deleteLabel">Delete App User</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     Are you sure to delete this App User?
@@ -229,12 +273,14 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="deleteLabel">Users details</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body user-details">
 
                 </div>
                 <div class="modal-footer">
+                    <a href="{{ route('admin.export.user.contacts', 0) }}" class="btn export-btn btn-primary">Download
+                        contacts</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -255,16 +301,22 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
+        let oTable;
         $(function () {
             $(".my-checkbox").bootstrapSwitch();
             $.fn.dataTable.ext.errMode = 'throw';
 
-            var oTable = $('#users-table').DataTable({
+            oTable = $('#users-table').DataTable({
                 ajax: {
                     url: '{!! route( 'admin.ajax.users' ) !!}',
-                    data: function(d) {
+                    data: function (d) {
                         d.start_date = $('input[name=start]').val();
                         d.end_date = $('input[name=end]').val();
+                        d.prime = $('#prime').is(":checked") ? 1 : '';
+                        d.android = $('#android').is(":checked") ? 1 : '';
+                        d.ios = $('#ios').is(":checked") ? 1 : '';
+                        d.male = $('#male').is(":checked") ? 1 : '';
+                        d.female = $('#female').is(":checked") ? 1 : '';
                     }
                 },
                 processing: true,
@@ -277,7 +329,7 @@
                     {data: 'status', name: 'status', orderable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
-                order: [ [0, 'desc'] ],
+                order: [[0, 'desc']],
                 columnDefs: [
                     {
                         targets: [0],
@@ -291,19 +343,27 @@
                 $(this).removeData('bs.modal');
             });
 
-            var start = moment().subtract(30, 'days');
-            var end = moment();
+            let start = moment().subtract(30, 'days');
+            let end = moment();
             $('input[name="dates"]').daterangepicker({
-                startDate: start.format('MM/DD/YYYY'),
-                endDate: end.format('MM/DD/YYYY'),
+                // startDate: start.format('MM/DD/YYYY'),
+                // endDate: end.format('MM/DD/YYYY'),
                 maxDate: end,
-                opens: 'left'
-            }, function(start, end, label) {
+                opens: 'left',
+                locale: {cancelLabel: 'Clear'}
+            }, function (start, end, label) {
                 $('#start').val(start.format('MM/DD/YYYY'));
                 $('#end').val(end.format('MM/DD/YYYY'));
                 oTable.draw();
             });
-            $('input[name="dates"] span').html(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+            // $('input[name="dates"] span').html(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+            $('input[name="dates').on('cancel.daterangepicker', function (ev, picker) {
+                //do something, like clearing an input
+                $('input[name=start]').val('');
+                $('input[name=end]').val('');
+                $('input[name="dates"]').val('');
+                oTable.draw();
+            });
         });
 
         function confirmDelete(id) {
@@ -313,11 +373,11 @@
 
         function confirmAction(id) {
             $('.loading').show();
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '{{ route('admin.users.suspend') }}',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN, id: id },
+                data: {_token: CSRF_TOKEN, id: id},
                 dataType: 'JSON',
                 success: function (data) {
                     $('.loading').hide();
@@ -327,17 +387,18 @@
         }
 
         function deleteComment() {
-            var id = $("#confirm_id").val();
+            let id = $("#confirm_id").val();
             $("#form" + id).submit();
         }
 
         function showDetails(id) {
+            $('.export-btn').attr('href', "{{ url('admin/export-user-contacts/') }}/" + id)
             $('.loading').show();
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '{{ route('admin.users.details') }}',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN, user_id: id },
+                data: {_token: CSRF_TOKEN, user_id: id},
                 dataType: 'JSON',
                 success: function (data) {
                     $("#user_details").modal("show");
@@ -347,8 +408,12 @@
             });
         }
 
+        function filterOption() {
+            oTable.draw();
+        }
+
         $(document).ready(function () {
             $('.loading').hide();
-        })
+        });
     </script>
 @stop

@@ -17,14 +17,14 @@ use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
+    protected $model;
     /**
      * @var \Illuminate\Contracts\Auth\Authenticatable|null
      */
     private $auth;
-    protected $model;
 
     /**
-     * AdminUserController constructor.
+     * AppUserController constructor.
      */
     public function __construct()
     {
@@ -39,17 +39,50 @@ class UserController extends Controller
      */
     public function getUsers()
     {
-        $arrStart = explode("/", Input::get('start_date'));
-        $arrEnd = explode("/", Input::get('end_date'));
-        $start = Carbon::create($arrStart[2], $arrStart[0], $arrStart[1], 0, 0, 0);
-        $end = Carbon::create($arrEnd[2], $arrEnd[0], $arrEnd[1], 23, 59, 59);
-        $users = User::select('users.id', 'users.created_at', 'users.status', 'users.phone_number_id', 'user_profiles.first_name', 'user_profiles.last_name', 'user_profiles.email', 'phone_numbers.number', 'phone_numbers.id as number_id')
-            ->join('user_profiles', 'user_profiles.user_id','=','users.id')
-            ->join('phone_numbers', 'phone_numbers.id','=','users.phone_number_id')->between($start, $end);
-        
+        $users = User::select('users.id', 'users.created_at', 'users.status', 'users.phone_number_id',
+            'users.device_type', 'user_profiles.first_name', 'user_profiles.last_name', 'user_profiles.email',
+            'user_profiles.gender', 'phone_numbers.number', 'phone_numbers.id as number_id')
+            ->join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
+            ->join('phone_numbers', 'phone_numbers.id', '=', 'users.phone_number_id');
+        if (Input::get('prime')) {
+            $users->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                ->addSelect('user_plans.plan_id')->where('user_plans.plan_id', 2);
+        }
+        if (Input::get('start_date') && Input::get('end_date')) {
+            $arrStart = explode("/", Input::get('start_date'));
+            $arrEnd = explode("/", Input::get('end_date'));
+            $start = Carbon::create($arrStart[2], $arrStart[0], $arrStart[1], 0, 0, 0);
+            $end = Carbon::create($arrEnd[2], $arrEnd[0], $arrEnd[1], 23, 59, 59);
+            $users->between($start, $end);
+        }
+
+        if (!Input::get('android') || !Input::get('ios')) {
+            if (Input::get('android')) {
+                $users->where('device_type', 'Android');
+            } else {
+                if (Input::get('ios')) {
+                    $users->where('device_type', 'ios');
+                }
+            }
+        }
+
+        if (!Input::get('male') || !Input::get('female')) {
+            if (Input::get('male')) {
+                $users->where(function ($q) {
+                    $q->where('gender', 'Male')->orWhere('gender', 'male')->orWhere('gender', 'MALE');
+                });
+            } else {
+                if (Input::get('female')) {
+                    $users->where(function ($q) {
+                        $q->where('gender', 'Female')->orWhere('gender', 'female')->orWhere('gender', 'FEMALE');
+                    });
+                }
+            }
+        }
+
         return DataTables::of($users)
             ->addColumn('name', function ($user) {
-                return $user->first_name.' '.$user->last_name;
+                return $user->first_name . ' ' . $user->last_name;
             })
             ->addColumn('email', function ($user) {
                 return $user->profile->email;
@@ -61,10 +94,10 @@ class UserController extends Controller
                 if (Auth::guard('admin')->user()->hasAnyPermission(['user-suspend'])) {
                     if ($user->status) {
                         $html = '<input type="checkbox" checked value="1" class="my-checkbox" data-on-color="success"
-                               data-on-text="Active" data-off-text="Suspended" data-off-color="danger" onchange="confirmAction('.$user->id.')"></form>';
+                               data-on-text="Active" data-off-text="Suspended" data-off-color="danger" onchange="confirmAction(' . $user->id . ')"></form>';
                     } else {
                         $html = '<input type="checkbox" value="1" class="my-checkbox" data-on-color="success"
-                               data-on-text="Active" data-off-text="Suspended" data-off-color="danger" onchange="confirmAction('.$user->id.')"></form>';
+                               data-on-text="Active" data-off-text="Suspended" data-off-color="danger" onchange="confirmAction(' . $user->id . ')"></form>';
                     }
                 } else {
                     if ($user->status) {
@@ -80,43 +113,48 @@ class UserController extends Controller
                 $html = "";
 
                 if (Auth::guard('admin')->user()->hasAnyPermission(['user-details'])) {
-                    $html .= '<form class="form-inline" id="form'.$user->id.'" action="'.route('admin.users.destroy', $user->id).'"  method="post">
-                    <a href="#" onclick="showDetails('.$user->id.')" class = "btn btn-info" ><i class="fa fa-eye"></i></a>';
+                    $html .= '<form class="form-inline" id="form' . $user->id . '" action="' . route('admin.users.destroy',
+                            $user->id) . '"  method="post">
+                    <a href="#" onclick="showDetails(' . $user->id . ')" class = "btn btn-info" ><i class="fa fa-eye"></i></a>';
                 } else {
-                $html .= '<form class="form-inline" id="form'.$user->id.'" action="'.route('admin.users.destroy', $user->id).'"  method="post">';
+                    $html .= '<form class="form-inline" id="form' . $user->id . '" action="' . route('admin.users.destroy',
+                            $user->id) . '"  method="post">';
                 }
                 if (Auth::guard('admin')->user()->hasAnyPermission(['user-edit'])) {
-                    $html .= '<a href="'.route('admin.users.edit',$this->encrypt($user->id)).'" class = "btn btn-primary" ><i class="fa fa-edit"></i></a>';
+                    $html .= '<a href="' . route('admin.users.edit',
+                            $this->encrypt($user->id)) . '" class = "btn btn-primary" ><i class="fa fa-edit"></i></a>';
                 } else {
                     $html .= '';
                 }
 
                 if (Auth::guard('admin')->user()->hasAnyPermission(['user-delete'])) {
-                    $html .= ''.method_field("delete").csrf_field().'<button class="btn btn-danger" onclick="confirmDelete('.$user->id.')" type="button"><i class = "fa fa-trash "></i></button></form><script></script>';
+                    $html .= '' . method_field("delete") . csrf_field() . '<button class="btn btn-danger" onclick="confirmDelete(' . $user->id . ')" type="button"><i class = "fa fa-trash "></i></button></form><script></script>';
                 } else {
                     $html .= '</form>';
                 }
 
                 return $html;
             })
-            ->filterColumn('name', function($query, $keyword) {
+            ->filterColumn('name', function ($query, $keyword) {
                 $sql = "CONCAT(user_profiles.first_name,' ',user_profiles.last_name)  like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->filterColumn('email', function($query, $keyword) {
+            ->filterColumn('email', function ($query, $keyword) {
                 $sql = "user_profiles.email  like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->filterColumn('number', function($query, $keyword) {
+            ->filterColumn('number', function ($query, $keyword) {
                 $sql = "phone_numbers.number  like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->filterColumn('status', function($query, $keyword) {
+            ->filterColumn('status', function ($query, $keyword) {
                 $sql = '';
-                if (stripos('ACTIVE', strtoupper($keyword)) !== FALSE) {
+                if (stripos('ACTIVE', strtoupper($keyword)) !== false) {
                     $sql = "users.status = 1";
-                } else if (stripos('SUSPENDED', strtoupper($keyword)) !== FALSE) {
-                    $sql = "users.status <> 1";
+                } else {
+                    if (stripos('SUSPENDED', strtoupper($keyword)) !== false) {
+                        $sql = "users.status <> 1";
+                    }
                 }
                 if ($sql != '') {
                     $query->whereRaw($sql);
@@ -149,7 +187,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -186,7 +224,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -199,7 +237,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -212,8 +250,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -255,7 +293,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -277,6 +315,16 @@ class UserController extends Controller
             Session::put('error', 'Unable to delete user !');
         }
         return redirect('admin/users');
+    }
+
+    /**
+     * @param $email
+     * @param $data
+     * @return mixed
+     */
+    public function sendMail($email, $data)
+    {
+        return Mail::to($email)->send(new AppUserAction($data));
     }
 
     /**
@@ -310,16 +358,6 @@ class UserController extends Controller
     }
 
     /**
-     * @param $email
-     * @param $data
-     * @return mixed
-     */
-    public function sendMail($email, $data)
-    {
-        return Mail::to($email)->send(new AppUserAction($data));
-    }
-
-    /**
      * @param Request $request
      * @return array
      */
@@ -332,60 +370,85 @@ class UserController extends Controller
 
         $html = '<div class="form-group">
                         <label>First Name: </label>
-                        '.$userDetails->first_name.'
+                        ' . $userDetails->first_name . '
                     </div>
                     <div class="form-group">
                         <label for="">Last Name: </label>
-                        '.$userDetails->last_name.'
+                        ' . $userDetails->last_name . '
                     </div>';
         $html .= $userDetails->nick_name ? '<div class="form-group">
                         <label for="">Nick Name: </label>
-                        '.$userDetails->nick_name.'
+                        ' . $userDetails->nick_name . '
                     </div>' : '';
         $html .= $userDetails->about ? '<div class="form-group">
                         <label for="">About: </label>
-                        '.$userDetails->about.'
+                        ' . $userDetails->about . '
                     </div>' : '';
         $html .= $userDetails->gender ? '<div class="form-group">
                         <label for="">Gender: </label>
-                        '.$userDetails->gender.'
+                        ' . $userDetails->gender . '
                     </div>' : '';
         $html .= $userDetails->email ? '<div class="form-group">
                         <label for="">Email: </label>
-                        '.$userDetails->email.'
+                        ' . $userDetails->email . '
                     </div>' : '';
         $html .= $userDetails->number ? '<div class="form-group">
                         <label for="">Mobile number: </label>
-                        '.$userDetails->number.'
+                        ' . $userDetails->number . '
                     </div>' : '';
         $html .= $userDetails->address ? '<div class="form-group">
                         <label for="">Address: </label>
-                        '.$userDetails->address.'
+                        ' . $userDetails->address . '
                     </div>' : '';
         $html .= $userDetails->website ? '<div class="form-group">
                         <label for="">Website: </label>
-                        '.$userDetails->website.'
+                        ' . $userDetails->website . '
                     </div>' : '';
         $html .= $userDetails->company_name ? '<div class="form-group">
                         <label for="">Company Name: </label>
-                        '.$userDetails->company_name.'
+                        ' . $userDetails->company_name . '
                     </div>' : '';
         $html .= $userDetails->company_address ? '<div class="form-group">
                         <label for="">Company Address: </label>
-                        '.$userDetails->company_address.'
+                        ' . $userDetails->company_address . '
                     </div>' : '';
         $html .= $userDetails->device_imei ? '<div class="form-group">
                         <label for="">Device IMEI: </label>
-                        '.$userDetails->device_imei.'
+                        ' . $userDetails->device_imei . '
                     </div>' : '';
         $html .= $userDetails->contacts ? '<div class="form-group">
                         <label for="">Total Contacts: </label>
-                        '.$userDetails->contacts.'
+                        ' . $userDetails->contacts . '
                     </div>' : '';
         $html .= $userDetails->created_at ? '<div class="form-group">
                         <label for="">Registered On: </label>
-                        '.$userDetails->created_at.'
+                        ' . $userDetails->created_at . '
+                    </div>' : '';
+        $html .= $userDetails->order_id ? '<div class="form-group">
+                        <label for="">Order Id: </label>
+                        ' . $userDetails->order_id . '
+                    </div>' : '';
+        $html .= $userDetails->renew_date ? '<div class="form-group">
+                        <label for="">Renew Date: </label>
+                        ' . $userDetails->renew_date . '
                     </div>' : '';
         return ['html' => $html];
+    }
+
+    public function downloadUserContacts($id)
+    {
+        $contacts = $this->model->getUserContacts($id);
+
+        $filename = public_path("contacts-" . $id . ".csv");
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, ['First name', 'Last name', 'Phone number', 'Email']);
+
+        foreach ($contacts as $row) {
+            fputcsv($handle, [$row['first_name'], $row['last_name'], '+' . $row['code'] . $row['number'], $row['email']]);
+        }
+
+        fclose($handle);
+
+        return response()->download($filename)->deleteFileAfterSend(true);
     }
 }

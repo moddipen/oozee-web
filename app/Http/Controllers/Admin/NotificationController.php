@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -54,11 +55,19 @@ class NotificationController extends Controller
 
         $tokens = [];
         foreach ($users as $user) {
-            $tokens[] = $user->device_token;
-            $this->model->storeNotifications($user->id, $request);
+            if (in_array($user->id, [49, 59, 89, 254])) {
+                $tokens[] = $user->device_token;
+                $this->model->storeNotifications($user->id, $request);
+            }
         }
 
-        $this->sendPushNotification($tokens, $request->title, $request->body);
+        $data = [
+            'title' => $request->title,
+            'body' => $request->body,
+            'timestamp' => time(),
+        ];
+
+        $this->sendPushNotification($tokens, $request->title, $request->body, $data);
 
         Session::put('success', 'Notification sent successfully !');
         return redirect('/admin/notification-create');

@@ -89,7 +89,6 @@ out more about Swagger at
  *     )
  * )
  */
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -108,7 +107,7 @@ class Controller extends BaseController
     public function getCurrentCountryCode()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
-        $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+        $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
         return $dataArray->geoplugin_countryCode;
     }
 
@@ -132,7 +131,7 @@ class Controller extends BaseController
         try {
             $decrypted = Crypt::decrypt($data);
             return $decrypted;
-        } catch(DecryptException $e) {
+        } catch (DecryptException $e) {
             return abort(404);
         }
     }
@@ -198,7 +197,7 @@ class Controller extends BaseController
     {
         $filename = time();
         $fileContents = file_get_contents($content);
-        File::put(public_path() .$path . $filename . ".jpg", $fileContents);
+        File::put(public_path() . $path . $filename . ".jpg", $fileContents);
         return $path . $filename . ".jpg";
     }
 
@@ -239,7 +238,7 @@ class Controller extends BaseController
     public function sendPushNotification($tokens, $title, $body, $data = [])
     {
         $fcm = new Fcm();
-        try{
+        try {
             if (empty($data) || count($data) == 0) {
                 $fcm->to($tokens)
                     ->notification([
@@ -256,7 +255,8 @@ class Controller extends BaseController
             }
             return true;
         } catch (\Exception $e) {
-            echo $e->getMessage(); exit;
+            echo $e->getMessage();
+            exit;
         }
     }
 }

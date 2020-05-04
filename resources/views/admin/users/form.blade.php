@@ -135,10 +135,10 @@
             </div>
             <div class="form-group {{ $errors->first('industry', 'has-error') }}">
                 <div class="row">
-                    <label for="about" class="col-sm-2 control-label">Industry </label>
+                    <label for="about" class="col-sm-2 control-label">Occupation </label>
                     <div class="col-sm-10">
                         <input id="industry" name="industry" type="text"
-                               placeholder="Industry" class="form-control"
+                               placeholder="Occupation" class="form-control"
                                @if(!empty($user)) value="{{ $user->profile->industry }}"
                                @else value="{!! old('industry') !!}" @endif/>
                         {!! $errors->first('industry', '<span id="industry_error" class="help-block">:message</span>') !!}

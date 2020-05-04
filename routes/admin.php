@@ -1,13 +1,13 @@
 <?php
 
 Route::group(['namespace' => 'Admin'], function () {
-    
+
     Route::get('/home', 'GeneralController@dashboard')->name('home');
     Route::post('location-users', 'GeneralController@getUsersByLocation')->name('location.users');
     Route::get('profile', 'AdminUserController@profile')->name('profile');
     Route::post('update-profile', 'AdminUserController@updateProfile')->name('update-profile');
     Route::put('admin-users/{id}/password-change','AdminUserController@changePassword')->name('admin-users.password-change');
-    
+
     /**
      * Admin User routes
      */
@@ -165,6 +165,7 @@ Route::group(['namespace' => 'Admin'], function () {
     });
     Route::group(['middleware' => ['permission:user-details']], function () {
         Route::post('users-details','UserController@getUserDetails')->name('users.details');
+        Route::get('export-user-contacts/{id}','UserController@downloadUserContacts')->name('export.user.contacts');
     });
     Route::group(['middleware' => ['permission:user-delete']], function () {
         Route::delete('users/{id}','UserController@destroy')->name('users.destroy');

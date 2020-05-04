@@ -327,7 +327,7 @@ class User extends Authenticatable
 
             $array[] = [
                 "number" => $user->number,
-                "status" => $user->status,
+                "status" => (Carbon::now()->subDays(2) < $user->updated_at) ? $user->status : "",
                 "photo" => $user->photo,
                 "gender" => $gender,
                 "subscribed" => $user->plan_id == 2 ? true : false
@@ -498,5 +498,14 @@ class User extends Authenticatable
                 'call get_number_tags(' .$data['number'] . ',' . $data['cid'] .',' . $data['user_id'] .')'
             )
         )->toArray();
+    }
+
+    public function getUserContacts($id)
+    {
+        return $this->hydrate(
+            DB::select(
+                'call get_user_contacts('.$id.')'
+            )
+        );
     }
 }
