@@ -39,8 +39,8 @@ class NotificationController extends Controller
     public function send(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:15',
-            'body' => 'required|max:100',
+            'title' => 'required|max:40',
+            'body' => 'required|max:280',
             'type' => 'required',
             'to' => 'required'
         ]);
@@ -55,7 +55,7 @@ class NotificationController extends Controller
 
         $tokens = [];
         foreach ($users as $user) {
-            if (in_array($user->id, [49, 59, 89, 254])) {
+            if (in_array($user->id, [49, 59, 89, 254, 55, 93])) {
                 $tokens[] = $user->device_token;
                 $this->model->storeNotifications($user->id, $request);
             }

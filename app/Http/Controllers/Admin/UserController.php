@@ -416,6 +416,10 @@ class UserController extends Controller
                         <label for="">Device IMEI: </label>
                         ' . $userDetails->device_imei . '
                     </div>' : '';
+        $html .= $userDetails->device_type ? '<div class="form-group">
+                        <label for="">Device type: </label>
+                        ' . $userDetails->device_type . '
+                    </div>' : '';
         $html .= $userDetails->contacts ? '<div class="form-group">
                         <label for="">Total Contacts: </label>
                         ' . $userDetails->contacts . '
@@ -431,6 +435,14 @@ class UserController extends Controller
         $html .= $userDetails->renew_date ? '<div class="form-group">
                         <label for="">Renew Date: </label>
                         ' . $userDetails->renew_date . '
+                    </div>' : '';
+        $html .= $userDetails->latitude || $userDetails->login_lat ? '<div class="form-group">
+                        <label for="">Latitude: </label>
+                        ' . $userDetails->latitude ?? $userDetails->login_lat . '
+                    </div>' : '';
+        $html .= $userDetails->longitude || $userDetails->login_long ? '<div class="form-group">
+                        <label for="">Longitude: </label>
+                        ' . $userDetails->longitude ?? $userDetails->login_long . '
                     </div>' : '';
         return ['html' => $html];
     }
