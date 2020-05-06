@@ -64,7 +64,7 @@ class NotificationController extends Controller
         $data = [
             'title' => $request->title,
             'body' => $request->body,
-            'timestamp' => time(),
+            'timestamp' => Carbon::now('Asia/Calcutta')->toDateTimeString(),
         ];
 
         $this->sendPushNotification($tokens, $request->title, $request->body, $data);
