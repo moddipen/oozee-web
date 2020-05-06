@@ -428,14 +428,28 @@ class UserController extends Controller
                         <label for="">Registered On: </label>
                         ' . $userDetails->created_at . '
                     </div>' : '';
-        $html .= $userDetails->order_id ? '<div class="form-group">
+        if ($userDetails->order_id) {
+            $html .= '<div class="form-group">
                         <label for="">Order Id: </label>
                         ' . $userDetails->order_id . '
+                    </div>';
+            $html .= $userDetails->plan_updated_at ? '<div class="form-group">
+                        <label for="">Purchased On: </label>
+                        ' . $userDetails->plan_updated_at . '
                     </div>' : '';
-        $html .= $userDetails->renew_date ? '<div class="form-group">
+            $html .= $userDetails->renew_date ? '<div class="form-group">
                         <label for="">Renew Date: </label>
                         ' . $userDetails->renew_date . '
                     </div>' : '';
+            $to = Carbon::createFromFormat('Y-m-d H:s:i', $userDetails->plan_updated_at);
+            $from = Carbon::createFromFormat('Y-m-d H:s:i', $userDetails->renew_date);
+            $diff = $to->diffInMonths($from);
+            $type = $diff == 1 ? '1 Month' : $diff == 6 ? '6 Months' : '1 Year';
+            $html .= '<div class="form-group">
+                        <label for="">Plan detail: </label>
+                        ' .  $type . '
+                    </div>';
+        }
         $html .= $userDetails->latitude || $userDetails->login_lat ? '<div class="form-group">
                         <label for="">Latitude: </label>
                         ' . $userDetails->latitude ?? $userDetails->login_lat . '

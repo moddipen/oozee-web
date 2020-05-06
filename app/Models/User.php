@@ -56,7 +56,7 @@ class User extends Authenticatable
     public function loginOrRegister($userData)
     {
         DB::statement(
-            DB::raw('CALL user_register_or_login(' .$userData->phone_number . ',' . $userData->country_id . ',' ."'". $userData->first_name ."'". ',' ."'". $userData->last_name ."'". ',' ."'". $userData->email ."'".  ',' ."'". $userData->type ."'".',' ."'". $userData->gender ."'".',' ."'". $userData->device_type ."'".',' ."'". $userData->device_token ."'".',' ."'". $userData->device_imei ."'".',' ."'". $userData->birthdate ."'".',' ."'". $userData->photo ."'".', @Out_UserID)')
+            DB::raw('CALL user_register_or_login(' . $userData->phone_number . ',' . $userData->country_id . ',' . "'" . $userData->first_name . "'" . ',' . "'" . $userData->last_name . "'" . ',' . "'" . $userData->email . "'" . ',' . "'" . $userData->type . "'" . ',' . "'" . $userData->gender . "'" . ',' . "'" . $userData->device_type . "'" . ',' . "'" . $userData->device_token . "'" . ',' . "'" . $userData->device_imei . "'" . ',' . "'" . $userData->birthdate . "'" . ',' . "'" . $userData->photo . "'" . ', @Out_UserID)')
         );
         $result = DB::select(
             'SELECT @Out_UserID as user_id'
@@ -86,7 +86,7 @@ class User extends Authenticatable
     public function searchContact($userData)
     {
         DB::statement(
-            DB::raw('CALL search_contact_new('.$userData['user_id'].',' .$userData['phone'] . ',' . $userData['cid'] .', @firstName, @lastName, @OutEmail, @address, @photo, @gender, @user_id, @OutSpam, @OutSpamCount, @ServiceProvider, @Subscribed, @Website, @Business)')
+            DB::raw('CALL search_contact_new(' . $userData['user_id'] . ',' . $userData['phone'] . ',' . $userData['cid'] . ', @firstName, @lastName, @OutEmail, @address, @photo, @gender, @user_id, @OutSpam, @OutSpamCount, @ServiceProvider, @Subscribed, @Website, @Business)')
         );
         $result = DB::select(
             'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @address as address, @photo as photo, @gender as gender, @user_id as user_id, @OutSpam as spam, @OutSpamCount as spamCount, @Subscribed as subscribed, @Website as website, @Business as business, @ServiceProvider as service_provider'
@@ -95,12 +95,12 @@ class User extends Authenticatable
         if ($result->user_id != 0) {
             $result->locations = $this->hydrate(
                 DB::select(
-                    'call get_user_locations('.$result->user_id.')'
+                    'call get_user_locations(' . $result->user_id . ')'
                 )
             )->toArray();
 
             DB::statement(
-                DB::raw('CALL check_gender_show('.$result->user_id.', @outShow)')
+                DB::raw('CALL check_gender_show(' . $result->user_id . ', @outShow)')
             );
             $checkGenderEnable = DB::select(
                 'SELECT @outShow as shows'
@@ -114,7 +114,7 @@ class User extends Authenticatable
         }
         $result->tags = $this->hydrate(
             DB::select(
-                'call get_number_tags(' .$userData['phone'] . ',' . $userData['cid'] .',' . $userData['user_id'] .')'
+                'call get_number_tags(' . $userData['phone'] . ',' . $userData['cid'] . ',' . $userData['user_id'] . ')'
             )
         )->toArray();
         return $result;
@@ -127,7 +127,7 @@ class User extends Authenticatable
     public function getContactDetails($userData)
     {
         DB::statement(
-            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutSpamCount, @OutBlock, @Subscribed, @Website, @Business, @About, @BusinessAddress, @Industry)')
+            DB::raw('CALL get_number_details_new(' . $userData['phone_number'] . ',' . $userData['country_id'] . ',' . $userData['user_id'] . ', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutSpamCount, @OutBlock, @Subscribed, @Website, @Business, @About, @BusinessAddress, @Industry)')
         );
         $result = DB::select(
             'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutSpamCount as spamCount, @OutBlock as isblock, @gender as gender, @Subscribed as subscribed, @Website as website, @Business as business, @About as about, @BusinessAddress as business_address, @Industry as industry'
@@ -137,12 +137,12 @@ class User extends Authenticatable
             $result->mutual_list = [];
             $result->mutual_list = $this->hydrate(
                 DB::select(
-                    'call get_mutual_contacts('.$userData['user_id'].', '.$result->user_id.')'
+                    'call get_mutual_contacts(' . $userData['user_id'] . ', ' . $result->user_id . ')'
                 )
             )->toArray();
 
             DB::statement(
-                DB::raw('CALL check_gender_show('.$result->user_id.', @outShow)')
+                DB::raw('CALL check_gender_show(' . $result->user_id . ', @outShow)')
             );
             $checkGenderEnable = DB::select(
                 'SELECT @outShow as shows'
@@ -157,7 +157,7 @@ class User extends Authenticatable
         if ($result->user_id != 0) {
             $mutual = $this->hydrate(
                 DB::select(
-                    'call get_mutual_contacts_count('.$userData['user_id'].', '.$result->user_id.')'
+                    'call get_mutual_contacts_count(' . $userData['user_id'] . ', ' . $result->user_id . ')'
                 )
             )->toArray();
             $result->mutual = $mutual[0]['mutual'];
@@ -168,7 +168,7 @@ class User extends Authenticatable
         if ($result->user_id != 0) {
             $result->locations = $this->hydrate(
                 DB::select(
-                    'call get_user_locations('.$result->user_id.')'
+                    'call get_user_locations(' . $result->user_id . ')'
                 )
             )->toArray();
         } else {
@@ -176,7 +176,7 @@ class User extends Authenticatable
         }
         $result->tags = $this->hydrate(
             DB::select(
-                'call get_number_tags(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .')'
+                'call get_number_tags(' . $userData['phone_number'] . ',' . $userData['country_id'] . ',' . $userData['user_id'] . ')'
             )
         )->toArray();
         return $result;
@@ -189,7 +189,7 @@ class User extends Authenticatable
     public function getWebContactDetails($userData)
     {
         DB::statement(
-            DB::raw('CALL get_number_details_new(' .$userData['phone_number'] . ',' . $userData['country_id'] .',' . $userData['user_id'] .', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutBlock)')
+            DB::raw('CALL get_number_details_new(' . $userData['phone_number'] . ',' . $userData['country_id'] . ',' . $userData['user_id'] . ', @firstName, @lastName, @OutEmail, @OutUserID, @OutNumberID, @OutContactID, @address, @ServiceProvider, @photo, @gender, @OutSpam, @OutBlock)')
         );
         $result = DB::select(
             'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @OutUserID as user_id, @OutNumberID as number_id, @OutContactID as contact_id, @address as address, @ServiceProvider as service_provider, @photo as photo, @OutSpam as spam, @OutBlock as isblock, @gender as gender'
@@ -207,7 +207,7 @@ class User extends Authenticatable
         $lastName = $this->removeQuote($data->last_name);
         $location = $this->removeQuote($data->location);
         return DB::statement(
-            DB::raw('CALL sync_contacts(' .$data->phone_number . ',' . $data->country_id. ',' . $data->user_id . ',"'. $firstName .'","'. $lastName .'","'. $data->email .'","'. $data->photo .'","'. $data->gender .'","'. $data->service_provider .'","'. $data->state_circle .'","'. $location .'","'. $data->active_date .'")')
+            DB::raw('CALL sync_contacts(' . $data->phone_number . ',' . $data->country_id . ',' . $data->user_id . ',"' . $firstName . '","' . $lastName . '","' . $data->email . '","' . $data->photo . '","' . $data->gender . '","' . $data->service_provider . '","' . $data->state_circle . '","' . $location . '","' . $data->active_date . '")')
         );
     }
 
@@ -230,7 +230,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_location_users('."'". $lat ."'". ',' ."'". $long ."'".',' .$miles.')'
+                'call get_location_users(' . "'" . $lat . "'" . ',' . "'" . $long . "'" . ',' . $miles . ')'
             )
         );
     }
@@ -280,7 +280,7 @@ class User extends Authenticatable
     public function statusUpdate($data)
     {
         DB::statement(
-            DB::raw('call user_status_update('.$data->user_id. ',' ."'". $data->status."'".')')
+            DB::raw('call user_status_update(' . $data->user_id . ',' . "'" . $data->status . "'" . ')')
         );
         return true;
     }
@@ -294,7 +294,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_contact_users('.$uid.')'
+                'call get_contact_users(' . $uid . ')'
             )
         );
     }
@@ -306,16 +306,16 @@ class User extends Authenticatable
     public function getContactUserWithStatus($uid)
     {
         $array = [];
-        $users =  $this->hydrate(
+        $users = $this->hydrate(
             DB::select(
-                'call get_contact_users_with_status_new('.$uid.')'
+                'call get_contact_users_with_status_new(' . $uid . ')'
             )
         );
         foreach ($users as $user) {
             $gender = $user->gender;
             if ($user->plan_id == 2) {
                 DB::statement(
-                    DB::raw('CALL check_gender_show('.$user->id.', @outShow)')
+                    DB::raw('CALL check_gender_show(' . $user->id . ', @outShow)')
                 );
                 $checkGenderEnable = DB::select(
                     'SELECT @outShow as shows'
@@ -325,9 +325,20 @@ class User extends Authenticatable
                 }
             }
 
+            $status = $user->status;
+            DB::statement(
+                DB::raw('CALL check_status_show(' . $user->id . ', @outShow)')
+            );
+            $checkStatusEnable = DB::select(
+                'SELECT @outShow as shows'
+            )[0];
+            if ($checkStatusEnable->shows != 1) {
+                $status = '';
+            }
+
             $array[] = [
                 "number" => $user->number,
-                "status" => (Carbon::now()->subDays(2) < $user->updated_at) ? $user->status : "",
+                "status" => (Carbon::now()->subDays(2) < $user->updated_at) ? $status : "",
                 "photo" => $user->photo,
                 "gender" => $gender,
                 "subscribed" => $user->plan_id == 2 ? true : false
@@ -344,7 +355,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_user_details_by_id('.$uid.')'
+                'call get_user_details_by_id(' . $uid . ')'
             )
         )->first();
     }
@@ -356,7 +367,7 @@ class User extends Authenticatable
     public function getUserDetailsByNumber($userData)
     {
         DB::statement(
-            DB::raw('CALL get_users_details_by_number('.$userData['phone'] . ',' . $userData['cid'] .', @firstName, @lastName, @OutEmail, @user_id, @OutDOB, @gender, @photo, @nickName, @about, @address, @website, @industry, @companyName, @companyAddress)')
+            DB::raw('CALL get_users_details_by_number(' . $userData['phone'] . ',' . $userData['cid'] . ', @firstName, @lastName, @OutEmail, @user_id, @OutDOB, @gender, @photo, @nickName, @about, @address, @website, @industry, @companyName, @companyAddress)')
         );
         $result = DB::select(
             'SELECT @firstName as first_name, @lastName as last_name, @OutEmail as email, @gender as gender, @user_id as user_id, @gender as gender, @OutDOB as dob, @photo as photo, @nickName as nick_name, @about as about, @address as address, @website as website, @industry as industry, @companyName as company_name, @companyAddress as company_address'
@@ -372,7 +383,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_contact_users_for_chat_new('.$uid.')'
+                'call get_contact_users_for_chat_new(' . $uid . ')'
             )
         );
     }
@@ -386,7 +397,7 @@ class User extends Authenticatable
         return $this->hydrate(
             DB::statement(
                 DB::raw(
-                    'DELETE FROM temp_new_contacts WHERE created_at < NOW() - INTERVAL '.$days.' DAY'
+                    'DELETE FROM temp_new_contacts WHERE created_at < NOW() - INTERVAL ' . $days . ' DAY'
                 )
             )
         );
@@ -400,7 +411,7 @@ class User extends Authenticatable
     {
         return DB::statement(
             DB::raw(
-                'DELETE FROM temp_contacts WHERE id <='.$id
+                'DELETE FROM temp_contacts WHERE id <=' . $id
             )
         );
     }
@@ -425,7 +436,7 @@ class User extends Authenticatable
     {
         return DB::statement(
             DB::raw(
-                'DELETE FROM temp_new_contacts WHERE id <='.$id
+                'DELETE FROM temp_new_contacts WHERE id <=' . $id
             )
         );
     }
@@ -457,7 +468,7 @@ class User extends Authenticatable
 //            )
 
             DB::raw(
-                'DELETE FROM temp_contacts_tc WHERE id <='.$id
+                'DELETE FROM temp_contacts_tc WHERE id <=' . $id
             )
         );
     }
@@ -471,7 +482,7 @@ class User extends Authenticatable
     {
         return DB::statement(
             DB::raw(
-                'DELETE FROM tag_to_numbers WHERE user_id='.$uid.' AND phone_number='.$phone
+                'DELETE FROM tag_to_numbers WHERE user_id=' . $uid . ' AND phone_number=' . $phone
             )
         );
     }
@@ -483,7 +494,7 @@ class User extends Authenticatable
     public function addTagToNumberByUser($data)
     {
         return DB::statement(
-            DB::raw('call add_tag_to_number('.$data['number']. ', '. $data['cid'].', '. $data['user_id'].', '. $data['tag_id'].')')
+            DB::raw('call add_tag_to_number(' . $data['number'] . ', ' . $data['cid'] . ', ' . $data['user_id'] . ', ' . $data['tag_id'] . ')')
         );
     }
 
@@ -495,7 +506,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_number_tags(' .$data['number'] . ',' . $data['cid'] .',' . $data['user_id'] .')'
+                'call get_number_tags(' . $data['number'] . ',' . $data['cid'] . ',' . $data['user_id'] . ')'
             )
         )->toArray();
     }
@@ -504,7 +515,7 @@ class User extends Authenticatable
     {
         return $this->hydrate(
             DB::select(
-                'call get_user_contacts('.$id.')'
+                'call get_user_contacts(' . $id . ')'
             )
         );
     }
