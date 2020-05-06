@@ -243,14 +243,16 @@ class Controller extends BaseController
                 $fcm->to($tokens)
                     ->notification([
                         'title' => $title,
-                        'body' => $body
+                        'body' => $body,
+                        'click_action' => "OPEN_ACTIVITY_1"
                     ])->send();
             } else {
                 $fcm->to($tokens)
                     ->data($data)
                     ->notification([
                         'title' => $title,
-                        'body' => $body
+                        'body' => $body,
+                        'click_action' => "OPEN_ACTIVITY_1"
                     ])->send();
             }
             return true;
